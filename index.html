@@ -4,371 +4,345 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trylen Stephens</title>
-<meta name="description" content="Trylen Stephens. Control Systems and Instrumentation Technology at Louisiana Tech. Sawmill analytics, PLC and robotics projects, and a PID step response you can tune.">
+<meta name="description" content="Trylen Stephens. Control Systems and Instrumentation Technology at Louisiana Tech, class of 2027. Sawmill analytics for Hunt Forest Products, PLC and robotics projects.">
 <meta property="og:title" content="Trylen Stephens">
-<meta property="og:description" content="Controls student at Louisiana Tech. Sawmill analytics, PLC, robotics, and a PID loop you can tune in the browser.">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+<meta property="og:description" content="Controls student at Louisiana Tech. I make plant data say what to do next.">
+<meta name="theme-color" content="#020308">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --blue:#003087; --blue-2:#1b4fc4; --red:#CB333B; --gold:#d9a400;
-    --ink:#161a24; --muted:#5c6273; --paper:#faf8f2; --bg:#ffffff; --card:#ffffff; --line:#dcdfe8;
-    --nav:rgba(255,255,255,.8);
-  }
-  :root[data-theme="dark"]{
-    --ink:#eef1f8; --muted:#a9b0c4; --paper:#0b1633; --bg:#070d1f; --card:#0f1a3a; --line:#22305c; --gold:#ffcc00;
-    --nav:rgba(7,13,31,.8);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --ink:#eef1f8; --muted:#a9b0c4; --paper:#0b1633; --bg:#070d1f; --card:#0f1a3a; --line:#22305c; --gold:#ffcc00;
-      --nav:rgba(7,13,31,.8);
-    }
+    --sky:#020308; --ink:#eaf2ff; --body:#c9d4e6; --muted:#8a9ab8; --dim:#6f82a3;
+    --blue:#7cc4ff; --red:#ff5a63; --gold:#ffcc4d; --line:rgba(140,170,230,.18);
+    --display:"Times New Roman",Times,serif; --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+    --gutter:clamp(16px,4vw,64px); --col:min(560px,100%);
+    --glow:0 0 .25em rgba(120,180,255,.35);
+    --flash:0 0 .04em #fff,0 0 .3em rgba(170,215,255,.9),0 0 .9em rgba(90,150,255,.7),0 0 1.8em rgba(60,110,255,.4);
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Times New Roman",Times,serif;line-height:1.5;font-size:17px}
-  a{color:var(--blue-2)}
-  .num{font-variant-numeric:tabular-nums}
+  html{scroll-behavior:smooth;background:var(--sky)}
+  body{margin:0;background:var(--sky);color:var(--body);font-family:var(--display);font-size:1.08rem;line-height:1.6;overflow-x:hidden}
+  a{color:var(--ink)}
+  canvas#stage{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+  .label{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase}
+  .display{font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:.95;color:var(--ink);text-shadow:var(--glow)}
 
-  nav{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:var(--nav);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  nav .brand{font-weight:700;font-size:1.15rem;text-decoration:none;color:var(--ink);letter-spacing:.01em}
-  nav .brand span{color:var(--red)}
-  nav ul{list-style:none;display:flex;gap:2px;margin:0;padding:0}
-  nav li a{display:block;padding:6px 10px;border-radius:6px;text-decoration:none;color:var(--ink);font-size:1rem}
-  nav li a:hover{background:color-mix(in srgb,var(--blue) 12%,transparent)}
-  nav button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:6px;padding:5px 10px;cursor:pointer;font:inherit;font-size:.9rem}
-  @media (max-width:560px){ nav li:nth-child(n+3){display:none} }
+  nav{position:fixed;top:0;left:0;right:0;z-index:4;display:flex;justify-content:space-between;align-items:center;padding:22px var(--gutter);pointer-events:none}
+  nav a{pointer-events:auto;text-decoration:none;color:var(--body)}
+  nav .brand{color:var(--ink)}
+  nav ul{list-style:none;display:flex;gap:28px;margin:0;padding:0}
+  nav li a:hover{color:var(--gold)}
+  @media (max-width:640px){ nav ul{gap:16px} nav li:nth-child(3){display:none} }
 
-  .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
-  header.hero{padding:44px 0 8px}
-  .kicker{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
-  header h1{margin:6px 0 4px;font-size:clamp(2.4rem,6.5vw,4.2rem);font-weight:700;line-height:1;letter-spacing:-.01em;color:var(--blue)}
-  :root[data-theme="dark"] header h1{color:#dfe7ff}
-  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) header h1{color:#dfe7ff} }
-  header .tag{margin:0;font-size:clamp(1.05rem,2.4vw,1.35rem);font-style:italic}
+  main{position:relative;z-index:1}
+  .col{width:var(--col);padding:0 var(--gutter)}
+  .sec{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:96px;padding-bottom:64px;position:relative}
+  .sec .col{background:linear-gradient(90deg,rgba(2,3,8,.82) 0%,rgba(2,3,8,.7) 70%,rgba(2,3,8,0) 100%);padding-top:24px;padding-bottom:24px}
+  @media (max-width:900px){ .sec{justify-content:flex-end} .sec .col{background:linear-gradient(180deg,rgba(2,3,8,0) 0%,rgba(2,3,8,.85) 12%,rgba(2,3,8,.85) 100%);padding-top:40px} }
+  .sec .num{color:var(--gold);margin-bottom:14px}
+  .sec h1{font-size:clamp(3rem,9vw,6.2rem);margin:0 0 22px;text-shadow:var(--flash)}
+  .sec h2{font-size:clamp(2.2rem,5.6vw,3.6rem);margin:0 0 18px}
+  .sec p{margin:0 0 14px;max-width:46ch}
+  .sec p.lead{color:var(--ink);font-size:1.18rem}
+  .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+  .btn{display:inline-block;padding:12px 20px;border:1px solid rgba(170,200,255,.5);border-radius:999px;color:var(--ink);text-decoration:none;background:rgba(3,5,11,.5);transition:border-color .2s,box-shadow .2s}
+  .btn:hover{border-color:var(--gold);box-shadow:0 0 .8em rgba(255,204,77,.25)}
+  .scroll-hint{position:absolute;left:var(--gutter);bottom:28px;color:var(--dim)}
 
-  .fig{display:grid;grid-template-columns:1fr 280px;gap:16px;margin:22px 0 0;align-items:stretch}
-  @media (max-width:760px){ .fig{grid-template-columns:1fr} }
-  #plot{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-height:320px;height:min(60vh,520px)}
-  #plot canvas{display:block}
-  .panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:.95rem;display:flex;flex-direction:column;gap:4px}
-  .panel h3{margin:0 0 4px;font-size:1rem;font-weight:700}
-  .panel label{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:8px;margin:2px 0}
-  .panel label span{font-style:italic}
-  .panel input[type=range]{grid-column:1/3;width:100%;accent-color:var(--red);margin:0 0 4px}
-  .panel .row{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
-  .panel button{flex:1;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:6px;padding:5px 6px;cursor:pointer;font:inherit;font-size:.9rem;min-width:56px}
-  .panel button:hover{border-color:var(--blue-2)}
-  .panel button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
-  .panel table{border-collapse:collapse;width:100%;margin-top:8px;font-size:.92rem}
-  .panel td{padding:2px 0;border-top:1px solid var(--line)}
-  .panel td:last-child{text-align:right}
-  .caption{color:var(--muted);font-size:.92rem;margin:10px 0 0;max-width:820px}
+  .proj{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+  .proj li{padding:14px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:baseline}
+  .proj .t{color:var(--ink);font-weight:700;font-size:1.15rem}
+  .proj .d{grid-column:1/3;color:var(--body);font-size:1rem;max-width:52ch}
+  .proj .l{white-space:nowrap}
+  .proj .l a{color:var(--gold);text-decoration:none;margin-left:10px}
+  .proj .l a:hover{text-decoration:underline}
+  .logo{display:block;width:min(360px,100%);border-radius:6px;margin:6px 0 18px;border:1px solid var(--line)}
 
-  main{max-width:1080px;margin:0 auto;padding:0 16px}
-  section{padding:52px 0 8px}
-  h2{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);font-weight:700;margin:0 0 14px}
-  .lede{font-size:clamp(1.1rem,2.2vw,1.4rem);max-width:780px;margin:0 0 12px;line-height:1.4}
-  .prose{max-width:780px}
-  .prose p{margin:0 0 12px}
+  .contact{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:10px}
+  .contact a{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--ink);background:rgba(3,5,11,.55)}
+  .contact a:hover{border-color:var(--gold)}
+  .contact small{color:var(--muted);font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
 
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
-  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--blue)}
-  .card.red::before{background:var(--red)}
-  .card.gold::before{background:var(--gold)}
-  .card h3{margin:0;font-size:1.2rem;font-weight:700}
-  .card .tag{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-  .card p{margin:0;font-size:.97rem}
-  .card .links{margin-top:auto;display:flex;gap:12px;flex-wrap:wrap;font-size:.95rem;font-style:italic}
-  .card .links a{text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--blue-2) 50%,transparent)}
-  .card.feature{grid-column:1/-1;display:grid;grid-template-columns:minmax(220px,380px) 1fr;gap:20px;align-items:center;background:#111}
-  .card.feature::before{background:var(--gold)}
-  .card.feature img{width:100%;height:auto;border-radius:6px;display:block}
-  .card.feature h3,.card.feature p{color:#f2f2f2}
-  .card.feature .tag{color:#bdbdbd}
-  .card.feature .links a{color:#ffcc00;border-color:rgba(255,204,0,.5)}
-  @media (max-width:640px){ .card.feature{grid-template-columns:1fr} }
+  .rail{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:3;display:flex;flex-direction:column;gap:18px;align-items:center}
+  .rail::before{content:"";position:absolute;top:-6px;bottom:-6px;width:1px;background:var(--line)}
+  .rail a{position:relative;width:14px;height:14px;display:grid;place-items:center;text-decoration:none}
+  .rail a i{width:6px;height:6px;border-radius:50%;background:var(--dim);transition:background .3s,box-shadow .3s}
+  .rail a.on i{background:var(--gold);box-shadow:0 0 .6em var(--gold)}
+  .rail a span{position:absolute;right:22px;top:50%;transform:translateY(-50%);white-space:nowrap;color:var(--muted);opacity:0;transition:opacity .2s}
+  .rail a:hover span,.rail a.on span{opacity:1}
+  @media (max-width:640px){ .rail{display:none} }
 
-  .contact{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-  .contact a{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;background:var(--card)}
-  .contact a.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
-  .contact a:hover{border-color:var(--blue-2)}
-  .contact small{display:block;color:var(--muted);font-size:.85rem;font-style:italic}
-  .contact a.primary small{color:#dfe6ff}
-  .ico{width:22px;height:22px;flex:none}
-
-  footer{color:var(--muted);font-size:.9rem;text-align:center;padding:40px 16px 32px;border-top:1px solid var(--line);margin-top:48px}
+  footer{position:relative;z-index:1;padding:28px var(--gutter) 40px;color:var(--dim);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .nogl{position:fixed;inset:0;background:radial-gradient(ellipse at 70% 40%,#0b1633 0%,#020308 60%);z-index:0}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
 </style>
 </head>
 <body>
-<nav>
-  <a class="brand" href="#top">Trylen Stephens<span>.</span></a>
+<canvas id="stage" aria-hidden="true"></canvas>
+
+<nav class="label">
+  <a class="brand" href="#top">T · S</a>
   <ul>
+    <li><a href="#mill">Mill</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#hunt">Hunt</a></li>
+    <li><a href="#work">Work</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="Trylen_Stephens_Resume.pdf">Resume</a></li>
   </ul>
-  <button id="themeBtn" type="button" aria-label="Toggle dark mode">Dark</button>
 </nav>
 
-<header class="hero wrap" id="top">
-  <div class="kicker">Louisiana Tech · Control Systems &amp; Instrumentation</div>
-  <h1>Trylen Stephens</h1>
-  <p class="tag">I make plant data say what to do next.</p>
+<div class="rail label" id="rail">
+  <a href="#top" data-i="0"><i></i><span>Top</span></a>
+  <a href="#mill" data-i="1"><i></i><span>The mill</span></a>
+  <a href="#projects" data-i="2"><i></i><span>Projects</span></a>
+  <a href="#work" data-i="3"><i></i><span>How I work</span></a>
+  <a href="#contact" data-i="4"><i></i><span>Contact</span></a>
+</div>
 
-  <div class="fig">
-    <div id="plot"></div>
-    <div class="panel">
-      <h3>PID on a slow plant</h3>
-      <label><span>K<sub>p</sub></span><b class="num" id="kpv">3.0</b><input id="kp" type="range" min="0" max="10" step="0.1" value="3"></label>
-      <label><span>K<sub>i</sub></span><b class="num" id="kiv">1.20</b><input id="ki" type="range" min="0" max="5" step="0.05" value="1.2"></label>
-      <label><span>K<sub>d</sub></span><b class="num" id="kdv">0.60</b><input id="kd" type="range" min="0" max="3" step="0.05" value="0.6"></label>
-      <div class="row"><button type="button" data-preset="2,0,0">P</button><button type="button" data-preset="2,1.2,0">PI</button><button type="button" data-preset="3,1.2,0.6">PID</button><button type="button" id="distBtn" title="Add a −0.5 load disturbance at t = 7 s">load</button></div>
-      <table class="num">
-        <tr><td>Overshoot</td><td id="m_os">–</td></tr>
-        <tr><td>Rise time (10–90 %)</td><td id="m_tr">–</td></tr>
-        <tr><td>Settling (±2 %)</td><td id="m_ts">–</td></tr>
-        <tr><td>IAE</td><td id="m_iae">–</td></tr>
-      </table>
-      <div class="row"><button type="button" id="clearBtn">clear ghosts</button><button type="button" id="saveBtn">save png</button></div>
-    </div>
-  </div>
-  <p class="caption">Unit step at t = 1 s. The plant is two first-order lags in series (τ = 1.2 s and 0.35 s) with 0.15 s of dead time. The controller output is clamped to 0–3 with anti-windup, like a heater that cannot cool. Derivative acts on the measurement so a setpoint step does not kick it. Each tuning you try leaves a ghost of the one before.</p>
-</header>
 <main>
-  <section id="about">
-    <h2>About</h2>
-    <p class="lede">Senior in Control Systems &amp; Instrumentation Technology at Louisiana Tech, class of 2027. Three years of industry-partnered research, most of it turning messy operational data into rules a person can act on.</p>
-    <div class="prose">
-      <p>My work sits where PLCs, plant data, and AI tooling meet. I have tuned PID loops, programmed Do-More PLCs, scored local RAG pipelines on hand-built benchmarks, and shipped releases to a sawmill's production dashboard. I like problems where the mechanism has to be understood before the statistics mean anything.</p>
+  <section class="sec" id="top" data-form="0">
+    <div class="col">
+      <div class="label num">// Control Systems &amp; Instrumentation · Louisiana Tech · Class of 2027</div>
+      <h1 class="display">Trylen<br>Stephens</h1>
+      <p class="lead">I make plant data say what to do next.</p>
+      <p>Sawmill analytics for Hunt Forest Products, PLC and robotics work at Louisiana Tech, and the tooling that ties them together.</p>
+      <div class="btns"><a class="btn label" href="Trylen_Stephens_Resume.pdf">Resume ↓</a><a class="btn label" href="mailto:tbs024@latech.edu">Email →</a></div>
     </div>
+    <div class="scroll-hint label">Scroll ↓</div>
   </section>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="grid">
-      <article class="card feature">
-        <img src="assets/convision-logo.png" alt="CONVISION ASCII logo: an eye above the word CONVISION, vision-guided conveyor sorting">
-        <div>
-          <div class="tag">Capstone Design · ICET 4751 · Fall 2026</div>
-          <h3>CONVISION, a vision-guided conveyor sorter</h3>
-          <p>A Jetson Nano camera classifies parts on a running belt. The PLC swings a diverter wedge to sort them, every detection lands in a SQL table, and an Ignition SCADA screen shows counts and belt state. The live page walks one full cycle in a 3D scene you can orbit.</p>
-          <div class="links"><a href="https://trylen22.github.io/capstone-vision-sorter/">Live demo</a><a href="https://github.com/Trylen22/capstone-vision-sorter">Repo</a></div>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="tag">Capstone · concept animation</div>
-        <h3>JetMax elevator storage</h3>
-        <p>A robot arm on a rear lift mast stores parts in a rack. Native WebGL, two-link inverse kinematics, orbit and overhead views, and a regression check that samples 5,766 poses.</p>
-        <div class="links"><a href="https://trylen22.github.io/capstone-elevator-storage/">Live</a><a href="https://github.com/Trylen22/capstone-elevator-storage">Repo</a></div>
-      </article>
-
-      <article class="card red">
-        <div class="tag">Robotics · Python · PLC</div>
-        <h3>JetMax control scripts</h3>
-        <p>Custom scripts for the Hiwonder JetMax arm on a Jetson Nano: vision pick from a conveyor, Allen-Bradley PLC integration, and WASD jogging for teaching positions.</p>
-        <div class="links"><a href="https://github.com/Trylen22/jetmax-control">Repo</a></div>
-      </article>
-
-      <article class="card gold">
-        <div class="tag">Industry research · 2026 to now</div>
-        <h3>Hunt / LaSalle sawmill analytics</h3>
-        <p>Downtime and trim-loss analytics for a Louisiana sawmill. Process model of every machine center, live signal views on the production dashboard, work-order attribution, and an agentic analysis loop.</p>
-        <div class="links"><a href="#hunt">Read more</a></div>
-      </article>
-
-      <article class="card">
-        <div class="tag">Industry research · 2024 to 2026</div>
-        <h3>Betaflix RAG tutor</h3>
-        <p>Built and scored local retrieval pipelines with LlamaIndex, ChromaDB, and Ollama for technical training content. Automated grading, NLI-based scoring, and the write-ups that went back to the company.</p>
-      </article>
-
-      <article class="card red">
-        <div class="tag">Explainer · self-contained HTML</div>
-        <h3>Inside the instruction</h3>
-        <p>A 1080p animation of what happens inside one ARMv8-A instruction, packaged as a single HTML page with no external assets.</p>
-        <div class="links"><a href="https://trylen22.github.io/arm-inside/">Watch</a><a href="https://github.com/Trylen22/arm-inside">Repo</a></div>
-      </article>
-
-      <article class="card">
-        <div class="tag">Team tool · Supabase</div>
-        <h3>Common Ground idea board</h3>
-        <p>A no-login idea board for the capstone team. Post, vote, comment, one vote per browser. Static page on GitHub Pages with a small Postgres schema behind it.</p>
-        <div class="links"><a href="https://trylen22.github.io/capstone-idea-board/">Live</a><a href="https://github.com/Trylen22/capstone-idea-board">Repo</a></div>
-      </article>
-
-      <article class="card gold">
-        <div class="tag">Study · 2021 to 2026</div>
-        <h3>Longitudinal study</h3>
-        <p>Coursework to industrial judgment, traced over five years. All data and graphics embedded in one page.</p>
-        <div class="links"><a href="https://trylen22.github.io/trylen-longitudinal-study/">Read</a></div>
-      </article>
-
-      <article class="card">
-        <div class="tag">Tooling · Gmail API</div>
-        <h3>Email-scraper</h3>
-        <p>Command-line tool that fetches work email, summarizes it with a local model, and turns threads into a de-duplicated task list.</p>
-        <div class="links"><a href="https://github.com/Trylen22/Email-scraper">Repo</a></div>
-      </article>
-    </div>
-  </section>
-
-  <section id="hunt">
-    <h2>The Hunt project</h2>
-    <p class="lede">Louisiana Tech works with Hunt Forest Products at the LaSalle Lumber sawmill in Urania, Louisiana. The goal is to reduce unplanned downtime and trim loss with data the mill already collects.</p>
-    <div class="prose">
+  <section class="sec" id="mill" data-form="1">
+    <div class="col">
+      <div class="label num">01 — The mill</div>
+      <h2 class="display">Log to lumber, wired for data</h2>
+      <p>Louisiana Tech works with Hunt Forest Products at the LaSalle Lumber sawmill in Urania, Louisiana. The goal is to reduce unplanned downtime and trim loss with data the mill already collects.</p>
       <p>The mill's telemetry, work orders, and vibration surveys live in separate systems that do not share identifiers. I build the models and tools that join them: a process model of every machine center, live signal views on the production dashboard, downtime-to-work-order attribution, and an AI-assisted analysis loop that hunts for rules an operator can act on at 3 AM.</p>
-      <p>Ask me about it.</p>
+      <p class="label" style="color:var(--dim)">The shape beside you is the plant model: machine centers as nodes, flow as edges.</p>
     </div>
   </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <div class="contact">
-      <a class="primary" href="mailto:tbs024@latech.edu">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-        <span>tbs024@latech.edu<small>Email me</small></span>
-      </a>
-      <a href="tel:+13183121782">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
-        <span>(318) 312-1782<small>Call or text</small></span>
-      </a>
-      <a href="Trylen_Stephens_Resume.pdf">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h8"/></svg>
-        <span>Resume<small>PDF</small></span>
-      </a>
-      <a href="https://github.com/Trylen22">
-        <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
-        <span>github.com/Trylen22<small>Code</small></span>
-      </a>
+  <section class="sec" id="projects" data-form="2">
+    <div class="col">
+      <div class="label num">02 — Projects</div>
+      <h2 class="display">Built and shipped</h2>
+      <img class="logo" src="assets/convision-logo.png" alt="CONVISION ASCII logo: an eye above the word CONVISION, vision-guided conveyor sorting">
+      <ul class="proj">
+        <li><span class="t">CONVISION</span><span class="l label"><a href="https://trylen22.github.io/capstone-vision-sorter/">Demo</a><a href="https://github.com/Trylen22/capstone-vision-sorter">Repo</a></span>
+          <span class="d">Capstone, fall 2026. A Jetson Nano camera classifies parts on a running belt, a PLC swings a diverter, every detection lands in SQL, and Ignition SCADA shows counts and belt state.</span></li>
+        <li><span class="t">JetMax elevator storage</span><span class="l label"><a href="https://trylen22.github.io/capstone-elevator-storage/">Live</a><a href="https://github.com/Trylen22/capstone-elevator-storage">Repo</a></span>
+          <span class="d">A robot arm on a lift mast stores parts in a rack. WebGL, two-link inverse kinematics, and a regression check over 5,766 poses.</span></li>
+        <li><span class="t">JetMax control scripts</span><span class="l label"><a href="https://github.com/Trylen22/jetmax-control">Repo</a></span>
+          <span class="d">Python on a Jetson Nano: vision pick from a conveyor, Allen-Bradley PLC integration, WASD jogging.</span></li>
+        <li><span class="t">Betaflix RAG tutor</span><span class="l label"></span>
+          <span class="d">Two years scoring local retrieval pipelines (LlamaIndex, ChromaDB, Ollama) on hand-built benchmarks for technical training content.</span></li>
+        <li><span class="t">Inside the instruction</span><span class="l label"><a href="https://trylen22.github.io/arm-inside/">Watch</a></span>
+          <span class="d">A 1080p animation of one ARMv8-A instruction, packaged as a single HTML file.</span></li>
+        <li><span class="t">Common Ground</span><span class="l label"><a href="https://trylen22.github.io/capstone-idea-board/">Live</a></span>
+          <span class="d">No-login idea board for the capstone team, Supabase behind a static page.</span></li>
+        <li><span class="t">Longitudinal study</span><span class="l label"><a href="https://trylen22.github.io/trylen-longitudinal-study/">Read</a></span>
+          <span class="d">Coursework to industrial judgment, 2021 to 2026, in one page.</span></li>
+        <li><span class="t">Email-scraper</span><span class="l label"><a href="https://github.com/Trylen22/Email-scraper">Repo</a></span>
+          <span class="d">Gmail to a de-duplicated task list with a local model.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" id="work" data-form="3">
+    <div class="col">
+      <div class="label num">03 — How I work</div>
+      <h2 class="display">Mechanism before statistics</h2>
+      <p>Senior in Control Systems &amp; Instrumentation Technology at Louisiana Tech. Three years of industry-partnered research, most of it turning messy operational data into rules a person can act on.</p>
+      <p>I have tuned PID loops, programmed Do-More PLCs, scored local RAG pipelines on hand-built benchmarks, and shipped releases to a sawmill's production dashboard. I like problems where you have to understand the machine before the numbers mean anything.</p>
+      <p class="label" style="color:var(--dim)">Beside you: a telemetry surface, one ridge where the line stopped.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="contact" data-form="0">
+    <div class="col">
+      <div class="label num">04 — Contact</div>
+      <h2 class="display">Say hello</h2>
+      <p>Ruston, Louisiana. Open to controls, automation, and analytics work.</p>
+      <ul class="contact">
+        <li><a href="mailto:tbs024@latech.edu"><span>tbs024@latech.edu</span><small>Email</small></a></li>
+        <li><a href="tel:+13183121782"><span>(318) 312-1782</span><small>Call or text</small></a></li>
+        <li><a href="https://github.com/Trylen22"><span>github.com/Trylen22</span><small>Code</small></a></li>
+        <li><a href="Trylen_Stephens_Resume.pdf"><span>Resume</span><small>PDF</small></a></li>
+      </ul>
     </div>
   </section>
 </main>
-<footer>Trylen Stephens · Louisiana Tech University · Ruston, LA · The figure is a p5.js simulation, 2 ms Euler steps, no data leaves your browser.</footer>
+<footer class="label"><span>Trylen Stephens · Ruston, LA</span><span id="perf">—</span></footer>
 
 <script>
-/* ---------- theme ---------- */
-const root=document.documentElement;
-function isDark(){ const t=root.getAttribute('data-theme'); if(t) return t==='dark'; return matchMedia('(prefers-color-scheme: dark)').matches; }
-function applyThemeBtn(){ document.getElementById('themeBtn').textContent = isDark()?'Light':'Dark'; }
-try{ const s=localStorage.getItem('ts-theme'); if(s) root.setAttribute('data-theme',s); }catch(e){}
-applyThemeBtn();
-document.getElementById('themeBtn').addEventListener('click',()=>{
-  const next=isDark()?'light':'dark'; root.setAttribute('data-theme',next);
-  try{localStorage.setItem('ts-theme',next)}catch(e){}
-  applyThemeBtn();
-});
+(function(){
+'use strict';
+/* ---------------- particle stage: one WebGL point cloud that changes form ---------------- */
+const canvas=document.getElementById('stage');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mobile=Math.min(innerWidth,innerHeight)<700;
+let N = mobile?45000:110000;
+const gl=canvas.getContext('webgl',{antialias:false,alpha:false,depth:false,preserveDrawingBuffer:true,powerPreference:'high-performance'});
+if(!gl){ const d=document.createElement('div'); d.className='nogl'; document.body.prepend(d); canvas.remove(); document.getElementById('perf').textContent='static sky'; return; }
 
-/* ---------- closed loop simulation ---------- */
-const plant={t1:1.2, t2:0.35, K:1.0, dead:0.15, umin:0, umax:3};
-const T=12, DT=0.002, N=Math.round(T/DT), TSTEP=1, TDIST=7, DIST=-0.5;
-function simulate(kp,ki,kd,dist){
-  const pv=new Float32Array(N), u=new Float32Array(N);
-  let x1=0,x2=0,I=0,prev=0;
-  const dl=Math.round(plant.dead/DT); const buf=new Float32Array(dl+1); let di=0;
-  for(let i=0;i<N;i++){
-    const t=i*DT, r=t>=TSTEP?1:0, e=r-x1;
-    const d=-(x1-prev)/DT; prev=x1;
-    const raw=kp*e+ki*I+kd*d;
-    const us=Math.max(plant.umin,Math.min(plant.umax,raw));
-    if(raw===us || (raw>us && e<0) || (raw<us && e>0)) I+=e*DT;   // anti-windup: no integration into the clamp
-    u[i]=us;
-    buf[di]=us; di=(di+1)%buf.length; const ud=buf[di];          // dead time
-    const load=(dist && t>=TDIST)?DIST:0;
-    x2+=DT*((plant.K*ud+load-x2)/plant.t2);
-    x1+=DT*((x2-x1)/plant.t1);
-    pv[i]=x1;
+/* ---- forms ---- */
+const R=Math.random;
+function gauss(){ return (R()+R()+R()-1.5)*1.4; }
+function logForm(n,out,tint){
+  // a log: bark on a cylinder, growth rings on both end faces
+  const L=1.5, r0=0.72, rings=11;
+  for(let i=0;i<n;i++){
+    const o=i*3;
+    if(R()<0.5){ // bark
+      const th=R()*Math.PI*2, x=(R()*2-1)*L, rr=r0+0.02*Math.sin(7*th+4*x)+0.012*gauss();
+      out[o]=x; out[o+1]=Math.cos(th)*rr; out[o+2]=Math.sin(th)*rr; tint[i]=0.15+0.2*R();
+    }else{ // end face rings; early rings wide, late rings tight
+      const k=Math.floor(R()*rings), f=(k+0.5)/rings, rr=r0*Math.pow(f,0.72)+0.008*gauss(), th=R()*Math.PI*2;
+      const side=R()<0.5?-L:L;
+      out[o]=side+0.01*gauss(); out[o+1]=Math.cos(th)*rr; out[o+2]=Math.sin(th)*rr; tint[i]=0.75+0.25*R();
+    }
   }
-  return {pv,u};
 }
-function metrics(pv,dist){
-  const i0=Math.round(TSTEP/DT), i1=dist?Math.round(TDIST/DT):N;
-  let peak=-1e9, iae=0, t10=null, t90=null, tset=null;
-  for(let i=i0;i<N;i++) iae+=Math.abs(1-pv[i])*DT;
-  for(let i=i0;i<i1;i++){
-    const v=pv[i]; if(v>peak) peak=v;
-    if(t10===null && v>=0.1) t10=i*DT;
-    if(t90===null && v>=0.9) t90=i*DT;
-    if(Math.abs(v-1)>0.02) tset=i*DT;
+function networkForm(n,out,tint){
+  // plant model: a serpentine main line of machine centers with side branches
+  const nodes=[], edges=[];
+  const main=16;
+  for(let k=0;k<main;k++){ const t=k/(main-1); const x=-1.9+3.8*t, y=0.55*Math.sin(t*Math.PI*2.2), z=0.5*Math.cos(t*Math.PI*1.4); nodes.push([x,y,z,0.05+0.05*R()]); if(k) edges.push([k-1,k]); }
+  for(let k=0;k<12;k++){ const a=1+Math.floor(R()*(main-2)); const b=nodes[a]; nodes.push([b[0]+0.35*gauss(),b[1]+0.5*gauss(),b[2]+0.5*gauss(),0.03+0.03*R()]); edges.push([a,nodes.length-1]); }
+  for(let i=0;i<n;i++){
+    const o=i*3;
+    if(R()<0.4){ const nd=nodes[Math.floor(R()*nodes.length)]; const s=nd[3]*1.3; out[o]=nd[0]+s*gauss(); out[o+1]=nd[1]+s*gauss(); out[o+2]=nd[2]+s*gauss(); tint[i]=0.85+0.15*R(); }
+    else{ const e=edges[Math.floor(R()*edges.length)], a=nodes[e[0]], b=nodes[e[1]], t=R(); out[o]=a[0]+(b[0]-a[0])*t+0.01*gauss(); out[o+1]=a[1]+(b[1]-a[1])*t+0.01*gauss(); out[o+2]=a[2]+(b[2]-a[2])*t+0.01*gauss(); tint[i]=0.1+0.2*R(); }
   }
-  const bad=!isFinite(peak)||peak>20;
-  return {
-    os: bad?'unstable':(peak>1?((peak-1)*100).toFixed(0)+' %':'none'),
-    tr: (t10!==null&&t90!==null)?(t90-t10).toFixed(2)+' s':'–',
-    ts: bad?'–':(tset===null?'0.00 s':(tset-TSTEP>=(i1*DT-TSTEP-0.01)?'not settled':(tset-TSTEP).toFixed(2)+' s')),
-    iae: bad?'–':iae.toFixed(3)
-  };
 }
-
-/* ---------- state + controls ---------- */
-const el=id=>document.getElementById(id);
-let gains={kp:3,ki:1.2,kd:0.6}, dist=false, cur=null, ghosts=[], revealT=0, canvas;
-const plotDiv=el('plot');
-function fmt(){ el('kpv').textContent=gains.kp.toFixed(1); el('kiv').textContent=gains.ki.toFixed(2); el('kdv').textContent=gains.kd.toFixed(2); }
-function rerun(keepGhost=true){
-  if(cur && keepGhost){ ghosts.push(cur.pv); if(ghosts.length>7) ghosts.shift(); }
-  cur=simulate(gains.kp,gains.ki,gains.kd,dist);
-  const m=metrics(cur.pv,dist);
-  el('m_os').textContent=m.os; el('m_tr').textContent=m.tr; el('m_ts').textContent=m.ts; el('m_iae').textContent=m.iae;
-  revealT=performance.now(); fmt();
+function boardsForm(n,out,tint){
+  // a lumber package: 5 layers of 4 boards, points on the box surfaces, gold ends
+  const W=0.3,H=0.11,L=1.5,g=0.05, cols=4, rows=5;
+  const x0=-(cols*(W+g)-g)/2, y0=-(rows*(H+g)-g)/2;
+  for(let i=0;i<n;i++){
+    const o=i*3, c=Math.floor(R()*cols), r=Math.floor(R()*rows);
+    const cx=x0+c*(W+g)+W/2, cy=y0+r*(H+g)+H/2;
+    const u=R(); let x,y,z; let end=false;
+    if(u<0.08){ end=true; z=(R()<0.5?-1:1)*L; x=cx+(R()-0.5)*W; y=cy+(R()-0.5)*H; }
+    else if(u<0.6){ y=cy+(R()<0.5?-0.5:0.5)*H; x=cx+(R()-0.5)*W; z=(R()*2-1)*L; }
+    else{ x=cx+(R()<0.5?-0.5:0.5)*W; y=cy+(R()-0.5)*H; z=(R()*2-1)*L; }
+    out[o]=z; out[o+1]=y; out[o+2]=x; tint[i]=end?0.9+0.1*R():0.1+0.25*R();
+  }
 }
-let ghostArmed=true;
-for(const k of ['kp','ki','kd']){
-  el(k).addEventListener('input',()=>{ gains[k]=parseFloat(el(k).value); rerun(ghostArmed); ghostArmed=false; });
-  el(k).addEventListener('change',()=>{ ghostArmed=true; });
+function signalForm(n,out,tint){
+  // a telemetry surface: rolling waves with one sharp ridge where the line stopped
+  for(let i=0;i<n;i++){
+    const o=i*3, x=(R()*2-1)*1.9, z=(R()*2-1)*1.1;
+    let y=0.12*Math.sin(3.1*x+1.7*z)+0.08*Math.sin(5.3*z-2.1*x)+0.05*Math.sin(9*x)*Math.cos(7*z);
+    const ridge=Math.exp(-Math.pow((x-0.55)/0.09,2))*0.75*Math.exp(-Math.pow(z/0.9,2));
+    y+=ridge; out[o]=x; out[o+1]=y-0.25; out[o+2]=z; tint[i]=Math.min(1,Math.max(0,(y+0.2)/0.9));
+  }
 }
-document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{
-  const [p,i,d]=b.dataset.preset.split(',').map(Number); gains={kp:p,ki:i,kd:d};
-  el('kp').value=p; el('ki').value=i; el('kd').value=d; rerun(true);
-}));
-el('distBtn').addEventListener('click',()=>{ dist=!dist; el('distBtn').classList.toggle('on',dist); rerun(true); });
-el('clearBtn').addEventListener('click',()=>{ ghosts=[]; });
-el('saveBtn').addEventListener('click',()=>saveCanvas(canvas,'trylen-pid','png'));
+const FORMS=[logForm,networkForm,boardsForm,signalForm];
+const pos=FORMS.map(()=>new Float32Array(N*3)), tints=new Float32Array(N*4), seed=new Float32Array(N*2);
+FORMS.forEach((f,k)=>{ const t=new Float32Array(N); f(N,pos[k],t); for(let i=0;i<N;i++) tints[i*4+k]=t[i]; });
+for(let i=0;i<N*2;i++) seed[i]=R();
+// stars
+const NS=1400, star=new Float32Array(NS*3), starSeed=new Float32Array(NS*2);
+for(let i=0;i<NS;i++){ const th=R()*Math.PI*2, ph=Math.acos(R()*2-1), r=14; star[i*3]=r*Math.sin(ph)*Math.cos(th); star[i*3+1]=r*Math.cos(ph)*0.6; star[i*3+2]=r*Math.sin(ph)*Math.sin(th); starSeed[i*2]=R(); starSeed[i*2+1]=R(); }
 
-/* ---------- drawing ---------- */
-function pal(){
-  return isDark()
-    ? {paper:[11,22,51], ink:[238,241,248], grid:[255,255,255], pv:[120,160,255], sp:[230,80,90], u:[255,204,0], ghost:[120,160,255]}
-    : {paper:[250,248,242], ink:[22,26,36], grid:[0,0,0], pv:[0,48,135], sp:[203,51,59], u:[217,164,0], ghost:[0,48,135]};
+/* ---- GL ---- */
+const VS=`
+attribute vec3 p0,p1,p2,p3; attribute vec4 tint; attribute vec2 seed;
+uniform vec4 w; uniform mat3 rot; uniform float aspect,time,size,zoom,agit,bright; uniform vec2 shift;
+uniform vec3 ca0,cb0,ca1,cb1,ca2,cb2,ca3,cb3;
+varying vec3 vC; varying float vA;
+void main(){
+  vec3 p=p0*w.x+p1*w.y+p2*w.z+p3*w.w;
+  float a=agit*(0.6+0.8*seed.x);
+  p+=a*vec3(sin(time*1.7+seed.x*41.0), cos(time*1.3+seed.y*37.0), sin(time*1.1+seed.x*23.0+seed.y*11.0))*0.35;
+  p=rot*p;
+  float z=p.z+3.6;
+  vec2 xy=p.xy/z*zoom+shift;
+  gl_Position=vec4(xy.x/aspect, xy.y, 0.0, 1.0);
+  gl_PointSize=max(1.0, size*(0.6+0.8*seed.y)/z);
+  vec3 c=w.x*mix(ca0,cb0,tint.x)+w.y*mix(ca1,cb1,tint.y)+w.z*mix(ca2,cb2,tint.z)+w.w*mix(ca3,cb3,tint.w);
+  vC=c; vA=bright*(0.55+0.45*seed.y);
+}`;
+const FS=`
+precision mediump float; varying vec3 vC; varying float vA;
+void main(){ vec2 d=gl_PointCoord-0.5; float r=dot(d,d); float a=smoothstep(0.25,0.02,r)*vA; gl_FragColor=vec4(vC*a,a); }`;
+const FADE_VS=`attribute vec2 q; void main(){ gl_Position=vec4(q,0.0,1.0); }`;
+const FADE_FS=`precision mediump float; uniform float f; void main(){ gl_FragColor=vec4(0.008,0.012,0.03,f); }`;
+function sh(t,s){ const o=gl.createShader(t); gl.shaderSource(o,s); gl.compileShader(o); if(!gl.getShaderParameter(o,gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o)); return o; }
+function prog(v,f){ const p=gl.createProgram(); gl.attachShader(p,sh(gl.VERTEX_SHADER,v)); gl.attachShader(p,sh(gl.FRAGMENT_SHADER,f)); gl.linkProgram(p); if(!gl.getProgramParameter(p,gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p)); return p; }
+const P=prog(VS,FS), PF=prog(FADE_VS,FADE_FS);
+function buf(data){ const b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW); return b; }
+const B={p:pos.map(buf), tint:buf(tints), seed:buf(seed), star:buf(star), starSeed:buf(starSeed), quad:buf(new Float32Array([-1,-1,1,-1,-1,1,1,1]))};
+const A={}; ['p0','p1','p2','p3','tint','seed'].forEach(n=>A[n]=gl.getAttribLocation(P,n));
+const U={}; ['w','rot','aspect','time','size','zoom','agit','bright','shift','ca0','cb0','ca1','cb1','ca2','cb2','ca3','cb3'].forEach(n=>U[n]=gl.getUniformLocation(P,n));
+const Uf=gl.getUniformLocation(PF,'f'), Aq=gl.getAttribLocation(PF,'q');
+const hex=h=>[parseInt(h.slice(1,3),16)/255,parseInt(h.slice(3,5),16)/255,parseInt(h.slice(5,7),16)/255];
+// per-form colours: [a,b] and tint mixes between them
+const COL=[ [hex('#3d7fd6'),hex('#ffcc4d')],   // log: blue bark, gold rings
+            [hex('#3d7fd6'),hex('#ff5a63')],   // network: blue edges, red nodes
+            [hex('#5aa0ff'),hex('#ffcc4d')],   // boards: blue faces, gold ends
+            [hex('#2b5fb8'),hex('#ffcc4d')] ]; // signal: blue floor, gold peaks
+const FORM_ROT=[ [0.9,0.35], [0.2,0.55], [1.0,0.42], [0.4,0.85] ]; // base yaw, pitch per form
+const ZOOM=[1.05,0.95,1.0,1.0];
+const BRIGHT=[1.0,0.5,0.32,1.0]; // dense forms glow less per point
+
+/* ---- state ---- */
+const sections=[...document.querySelectorAll('.sec')];
+let active=0, w=[1,0,0,0], wt=[1,0,0,0], yaw=0.9, pitch=0.35, zoom=1.05, mx=0, my=0, dpr=Math.min(1.5,devicePixelRatio||1), drawN=N;
+function targetForm(i){ const f=+sections[i].dataset.form; wt=[0,0,0,0]; wt[f]=1; }
+const railLinks=[...document.querySelectorAll('#rail a')];
+function updateActive(){
+  const line=scrollY+innerHeight*0.45; let a=0;
+  for(let i=0;i<sections.length;i++){ if(sections[i].offsetTop<=line) a=i; }
+  if(a!==active){ active=a; targetForm(a); railLinks.forEach(l=>l.classList.toggle('on',+l.dataset.i===a)); }
 }
-function setup(){
-  canvas=createCanvas(plotDiv.clientWidth, plotDiv.clientHeight); canvas.parent(plotDiv);
-  pixelDensity(Math.min(2,displayDensity())); textFont('Times New Roman'); rerun(false);
+addEventListener('scroll',updateActive,{passive:true}); updateActive();
+addEventListener('pointermove',e=>{ mx=(e.clientX/innerWidth-0.5); my=(e.clientY/innerHeight-0.5); },{passive:true});
+function resize(){ dpr=Math.min(1.5,devicePixelRatio||1); canvas.width=Math.floor(innerWidth*dpr); canvas.height=Math.floor(innerHeight*dpr); gl.viewport(0,0,canvas.width,canvas.height); gl.clearColor(0.008,0.012,0.03,1); gl.clear(gl.COLOR_BUFFER_BIT); }
+addEventListener('resize',resize); resize();
+
+function bind(loc,b,sz){ gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,sz,gl.FLOAT,false,0,0); }
+function rotMat(y,p){ const cy=Math.cos(y),sy=Math.sin(y),cp=Math.cos(p),sp=Math.sin(p);
+  // rows: Rx(pitch)*Ry(yaw); column-major for GL
+  return new Float32Array([cy,-sp*sy,-cp*sy,  0,cp,-sp,  sy,sp*cy,cp*cy]); }
+
+let last=performance.now(), t0=last, fpsAcc=0, fpsN=0, lastAdapt=last;
+function frame(now){
+  const dt=Math.min(0.05,(now-last)/1000); last=now; const t=(now-t0)/1000;
+  // ease weights, camera
+  const k=1-Math.exp(-dt/0.9); let dom=0;
+  for(let i=0;i<4;i++){ w[i]+=(wt[i]-w[i])*k; dom=Math.max(dom,w[i]); }
+  let f=0; for(let i=1;i<4;i++) if(w[i]>w[f]) f=i;
+  const ty=FORM_ROT[f][0]+(reduced?0:0.12*t)+mx*0.35, tp=FORM_ROT[f][1]+my*0.25;
+  yaw+=(ty-yaw)*k; pitch+=(tp-pitch)*k; zoom+=(ZOOM[f]*(innerWidth>900?1:0.72)-zoom)*k;
+  const agit=Math.max(0,1-dom)*2.0;                         // boil while morphing, still at rest
+  const wide=innerWidth>900, shiftX=wide?0.62:0.0, shiftY=wide?0.0:0.55;
+
+  // fade previous frame (trails)
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+  gl.useProgram(PF); gl.uniform1f(Uf, reduced?1.0:0.28); bind(Aq,B.quad,2); gl.drawArrays(gl.TRIANGLE_STRIP,0,4); gl.disableVertexAttribArray(Aq);
+
+  gl.blendFunc(gl.ONE,gl.ONE);
+  gl.useProgram(P);
+  gl.uniform1f(U.aspect,innerWidth/innerHeight); gl.uniform1f(U.time,t); gl.uniform2f(U.shift,shiftX,shiftY);
+  for(let i=0;i<4;i++){ gl.uniform3fv(U['ca'+i],COL[i][0]); gl.uniform3fv(U['cb'+i],COL[i][1]); }
+  // stars: slow parallax, far away, all four form slots bound to the same buffer
+  gl.uniformMatrix3fv(U.rot,false,rotMat(yaw*0.15,pitch*0.15)); gl.uniform4f(U.w,1,0,0,0); gl.uniform1f(U.zoom,1); gl.uniform1f(U.size,26*dpr); gl.uniform1f(U.agit,0); gl.uniform1f(U.bright,1.0);
+  ['p0','p1','p2','p3'].forEach(n=>bind(A[n],B.star,3)); bind(A.tint,B.starSeed,2); bind(A.seed,B.starSeed,2);
+  gl.vertexAttribPointer(A.tint,2,gl.FLOAT,false,0,0);
+  gl.drawArrays(gl.POINTS,0,NS);
+  // the form
+  gl.uniformMatrix3fv(U.rot,false,rotMat(yaw,pitch)); gl.uniform4fv(U.w,w); gl.uniform1f(U.zoom,zoom); gl.uniform1f(U.size,(mobile?8:6.5)*dpr); gl.uniform1f(U.agit,agit); gl.uniform1f(U.bright,0.16*(110000/drawN)*(w[0]*BRIGHT[0]+w[1]*BRIGHT[1]+w[2]*BRIGHT[2]+w[3]*BRIGHT[3]));
+  for(let i=0;i<4;i++) bind(A['p'+i],B.p[i],3); bind(A.tint,B.tint,4); bind(A.seed,B.seed,2);
+  gl.drawArrays(gl.POINTS,0,drawN);
+
+  // adaptive quality: if the frame rate sags, draw fewer particles
+  fpsAcc+=dt; fpsN++;
+  if(now-lastAdapt>2500){ const fps=fpsN/fpsAcc; if(fps<38 && drawN>N*0.3){ drawN=Math.floor(drawN*0.65); } document.getElementById('perf').textContent=Math.round(fps)+' fps · '+(drawN/1000|0)+'k points'; fpsAcc=0; fpsN=0; lastAdapt=now; }
+  requestAnimationFrame(frame);
 }
-function windowResized(){ resizeCanvas(plotDiv.clientWidth, plotDiv.clientHeight); }
-function draw(){
-  const c=pal(); background(...c.paper);
-  const ml=46, mr=44, mt=18, mb=34, W=width-ml-mr, H=height-mt-mb;
-  let ymax=1.6; for(let i=0;i<N;i+=20) if(cur.pv[i]*1.12>ymax) ymax=Math.min(4,cur.pv[i]*1.12);
-  const X=t=>ml+t/T*W, Y=v=>mt+H-(v/ymax)*H, YU=v=>mt+H-(v/plant.umax)*H;
-
-  // grid + axes
-  textSize(12); textAlign(RIGHT,CENTER); strokeWeight(1);
-  for(let v=0; v<=ymax+1e-6; v+=0.5){ stroke(...c.grid,28); line(ml,Y(v),ml+W,Y(v)); noStroke(); fill(...c.ink,170); text(v.toFixed(1),ml-6,Y(v)); }
-  textAlign(CENTER,TOP);
-  for(let t=0;t<=T;t+=2){ stroke(...c.grid,28); line(X(t),mt,X(t),mt+H); noStroke(); fill(...c.ink,170); text(t+' s',X(t),mt+H+6); }
-  textAlign(LEFT,CENTER); for(let v=0; v<=plant.umax; v+=1){ noStroke(); fill(...c.u,200); text(v,ml+W+6,YU(v)); }
-  noStroke(); fill(...c.ink,200); textAlign(LEFT,BOTTOM); textStyle(ITALIC); text('PV',ml+6,mt+12); fill(...c.u,220); textAlign(RIGHT,BOTTOM); text('u',ml+W-4,mt+12); textStyle(NORMAL);
-
-  // ghosts
-  noFill();
-  ghosts.forEach((g,k)=>{ const a=30+k/Math.max(1,ghosts.length-1)*60; stroke(...c.ghost,a); strokeWeight(1.2); beginShape(); for(let i=0;i<N;i+=6) vertex(X(i*DT),Y(g[i])); endShape(); });
-
-  // setpoint (dashed) and disturbance marker
-  stroke(...c.sp,220); strokeWeight(1.4); drawingContext.setLineDash([6,5]);
-  line(X(0),Y(0),X(TSTEP),Y(0)); line(X(TSTEP),Y(0),X(TSTEP),Y(1)); line(X(TSTEP),Y(1),X(T),Y(1));
-  drawingContext.setLineDash([]);
-  if(dist){ stroke(...c.ink,90); drawingContext.setLineDash([2,4]); line(X(TDIST),mt,X(TDIST),mt+H); drawingContext.setLineDash([]); noStroke(); fill(...c.ink,150); textAlign(LEFT,TOP); text('load −0.5',X(TDIST)+4,mt+2); }
-
-  // reveal
-  const frac=Math.min(1,(performance.now()-revealT)/900), nShow=Math.floor(N*frac);
-  stroke(...c.u,170); strokeWeight(1.1); noFill(); beginShape(); for(let i=0;i<nShow;i+=6) vertex(X(i*DT),YU(cur.u[i])); endShape();
-  stroke(...c.pv); strokeWeight(2.4); beginShape(); for(let i=0;i<nShow;i+=4) vertex(X(i*DT),Y(cur.pv[i])); endShape();
-  if(nShow>0){ const i=nShow-1; noStroke(); fill(...c.pv); circle(X(i*DT),Y(cur.pv[i]),6); }
-}
+requestAnimationFrame(frame);
+})();
 </script>
 </body>
 </html>
