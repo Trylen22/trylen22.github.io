@@ -4,104 +4,106 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trylen Stephens</title>
-<meta name="description" content="Trylen Stephens. Control Systems and Instrumentation Technology at Louisiana Tech. Sawmill analytics, PLC and robotics projects, and an interactive second-order brush.">
+<meta name="description" content="Trylen Stephens. Control Systems and Instrumentation Technology at Louisiana Tech. Sawmill analytics, PLC and robotics projects, and a PID step response you can tune.">
 <meta property="og:title" content="Trylen Stephens">
-<meta property="og:description" content="Controls student at Louisiana Tech. Sawmill analytics, PLC, robotics, and generative art that obeys a damping ratio.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<meta property="og:description" content="Controls student at Louisiana Tech. Sawmill analytics, PLC, robotics, and a PID loop you can tune in the browser.">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
 <style>
   :root{
-    --blue:#003087; --blue-2:#1b4fc4; --red:#CB333B; --gold:#ffcc00;
-    --ink:#161a24; --muted:#5c6273; --paper:#f6f4ee; --bg:#ffffff; --card:#ffffff; --line:#dcdfe8;
-    --nav:rgba(255,255,255,.72);
+    --blue:#003087; --blue-2:#1b4fc4; --red:#CB333B; --gold:#d9a400;
+    --ink:#161a24; --muted:#5c6273; --paper:#faf8f2; --bg:#ffffff; --card:#ffffff; --line:#dcdfe8;
+    --nav:rgba(255,255,255,.8);
   }
   :root[data-theme="dark"]{
-    --ink:#eef1f8; --muted:#a9b0c4; --paper:#0b1633; --bg:#070d1f; --card:#0f1a3a; --line:#22305c;
-    --nav:rgba(7,13,31,.72);
+    --ink:#eef1f8; --muted:#a9b0c4; --paper:#0b1633; --bg:#070d1f; --card:#0f1a3a; --line:#22305c; --gold:#ffcc00;
+    --nav:rgba(7,13,31,.8);
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --ink:#eef1f8; --muted:#a9b0c4; --paper:#0b1633; --bg:#070d1f; --card:#0f1a3a; --line:#22305c;
-      --nav:rgba(7,13,31,.72);
+      --ink:#eef1f8; --muted:#a9b0c4; --paper:#0b1633; --bg:#070d1f; --card:#0f1a3a; --line:#22305c; --gold:#ffcc00;
+      --nav:rgba(7,13,31,.8);
     }
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:Montserrat,system-ui,sans-serif;line-height:1.55}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Times New Roman",Times,serif;line-height:1.5;font-size:17px}
   a{color:var(--blue-2)}
-  .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .num{font-variant-numeric:tabular-nums}
 
-  nav{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:var(--nav);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  nav .brand{font-weight:800;letter-spacing:.02em;text-decoration:none;color:var(--ink)}
+  nav{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:var(--nav);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .brand{font-weight:700;font-size:1.15rem;text-decoration:none;color:var(--ink);letter-spacing:.01em}
   nav .brand span{color:var(--red)}
-  nav ul{list-style:none;display:flex;gap:4px;margin:0;padding:0}
-  nav li a{display:block;padding:6px 10px;border-radius:8px;text-decoration:none;color:var(--ink);font-weight:600;font-size:.85rem}
+  nav ul{list-style:none;display:flex;gap:2px;margin:0;padding:0}
+  nav li a{display:block;padding:6px 10px;border-radius:6px;text-decoration:none;color:var(--ink);font-size:1rem}
   nav li a:hover{background:color-mix(in srgb,var(--blue) 12%,transparent)}
-  nav button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer;font:inherit;font-size:.8rem}
+  nav button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:6px;padding:5px 10px;cursor:pointer;font:inherit;font-size:.9rem}
   @media (max-width:560px){ nav li:nth-child(n+3){display:none} }
 
-  #hero{position:relative;height:100svh;min-height:520px;overflow:hidden;background:var(--paper)}
-  #hero canvas{display:block}
-  .hero-text{position:absolute;left:16px;bottom:22px;max-width:min(640px,calc(100% - 32px));pointer-events:none}
-  .hero-text .kicker{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--red)}
-  .hero-text h1{margin:4px 0 4px;font-size:clamp(2.2rem,7vw,4.4rem);font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--blue)}
-  :root[data-theme="dark"] .hero-text h1{color:#dfe7ff}
-  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .hero-text h1{color:#dfe7ff} }
-  .hero-text p{margin:0;font-weight:600;font-size:clamp(.9rem,2.4vw,1.1rem)}
-  .hero-text .hint{margin-top:10px;font-size:.78rem;color:var(--muted);font-weight:400;max-width:520px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+  header.hero{padding:44px 0 8px}
+  .kicker{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+  header h1{margin:6px 0 4px;font-size:clamp(2.4rem,6.5vw,4.2rem);font-weight:700;line-height:1;letter-spacing:-.01em;color:var(--blue)}
+  :root[data-theme="dark"] header h1{color:#dfe7ff}
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) header h1{color:#dfe7ff} }
+  header .tag{margin:0;font-size:clamp(1.05rem,2.4vw,1.35rem);font-style:italic}
 
-  .panel{position:absolute;right:16px;bottom:22px;z-index:3;background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.75rem;width:230px}
-  .panel label{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;margin:4px 0}
-  .panel input[type=range]{grid-column:1/3;width:100%;accent-color:var(--red);margin:0}
-  .panel .row{display:flex;gap:6px;margin-top:8px}
-  .panel button{flex:1;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:8px;padding:5px;cursor:pointer;font:inherit;font-size:.75rem}
+  .fig{display:grid;grid-template-columns:1fr 280px;gap:16px;margin:22px 0 0;align-items:stretch}
+  @media (max-width:760px){ .fig{grid-template-columns:1fr} }
+  #plot{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-height:320px;height:min(60vh,520px)}
+  #plot canvas{display:block}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:.95rem;display:flex;flex-direction:column;gap:4px}
+  .panel h3{margin:0 0 4px;font-size:1rem;font-weight:700}
+  .panel label{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:8px;margin:2px 0}
+  .panel label span{font-style:italic}
+  .panel input[type=range]{grid-column:1/3;width:100%;accent-color:var(--red);margin:0 0 4px}
+  .panel .row{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+  .panel button{flex:1;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:6px;padding:5px 6px;cursor:pointer;font:inherit;font-size:.9rem;min-width:56px}
   .panel button:hover{border-color:var(--blue-2)}
-  .panel .read{color:var(--muted);margin-top:6px}
-  @media (max-width:700px){
-    .panel{right:12px;bottom:auto;top:62px;width:190px;padding:8px 10px}
-    .hero-text{bottom:16px}
-  }
+  .panel button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .panel table{border-collapse:collapse;width:100%;margin-top:8px;font-size:.92rem}
+  .panel td{padding:2px 0;border-top:1px solid var(--line)}
+  .panel td:last-child{text-align:right}
+  .caption{color:var(--muted);font-size:.92rem;margin:10px 0 0;max-width:820px}
 
-  main{max-width:1040px;margin:0 auto;padding:0 16px}
-  section{padding:56px 0 8px}
-  h2{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);font-weight:800;margin:0 0 14px}
-  .lede{font-size:clamp(1.05rem,2.2vw,1.35rem);font-weight:600;max-width:760px;margin:0 0 12px}
-  .prose{max-width:760px;color:var(--ink)}
+  main{max-width:1080px;margin:0 auto;padding:0 16px}
+  section{padding:52px 0 8px}
+  h2{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);font-weight:700;margin:0 0 14px}
+  .lede{font-size:clamp(1.1rem,2.2vw,1.4rem);max-width:780px;margin:0 0 12px;line-height:1.4}
+  .prose{max-width:780px}
   .prose p{margin:0 0 12px}
 
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
   .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--blue)}
   .card.red::before{background:var(--red)}
   .card.gold::before{background:var(--gold)}
-  .card h3{margin:0;font-size:1.05rem;font-weight:800}
-  .card .tag{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
-  .card p{margin:0;font-size:.92rem;color:var(--ink)}
-  .card .links{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap;font-size:.85rem;font-weight:600}
-  .card .links a{text-decoration:none;border-bottom:2px solid color-mix(in srgb,var(--blue-2) 40%,transparent)}
+  .card h3{margin:0;font-size:1.2rem;font-weight:700}
+  .card .tag{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .card p{margin:0;font-size:.97rem}
+  .card .links{margin-top:auto;display:flex;gap:12px;flex-wrap:wrap;font-size:.95rem;font-style:italic}
+  .card .links a{text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--blue-2) 50%,transparent)}
   .card.feature{grid-column:1/-1;display:grid;grid-template-columns:minmax(220px,380px) 1fr;gap:20px;align-items:center;background:#111}
   .card.feature::before{background:var(--gold)}
-  .card.feature img{width:100%;height:auto;border-radius:8px;display:block}
+  .card.feature img{width:100%;height:auto;border-radius:6px;display:block}
   .card.feature h3,.card.feature p{color:#f2f2f2}
   .card.feature .tag{color:#bdbdbd}
-  .card.feature .links a{color:var(--gold);border-color:color-mix(in srgb,var(--gold) 50%,transparent)}
+  .card.feature .links a{color:#ffcc00;border-color:rgba(255,204,0,.5)}
   @media (max-width:640px){ .card.feature{grid-template-columns:1fr} }
 
   .contact{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-  .contact a{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-weight:600;background:var(--card)}
+  .contact a{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:8px;color:var(--ink);text-decoration:none;background:var(--card)}
   .contact a.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
   .contact a:hover{border-color:var(--blue-2)}
-  .contact small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
+  .contact small{display:block;color:var(--muted);font-size:.85rem;font-style:italic}
   .contact a.primary small{color:#dfe6ff}
   .ico{width:22px;height:22px;flex:none}
 
-  footer{color:var(--muted);font-size:.8rem;text-align:center;padding:40px 16px 32px;border-top:1px solid var(--line);margin-top:48px}
+  footer{color:var(--muted);font-size:.9rem;text-align:center;padding:40px 16px 32px;border-top:1px solid var(--line);margin-top:48px}
 </style>
 </head>
 <body>
 <nav>
-  <a class="brand" href="#top">TRYLEN<span>.</span>STEPHENS</a>
+  <a class="brand" href="#top">Trylen Stephens<span>.</span></a>
   <ul>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#hunt">Hunt</a></li>
@@ -111,21 +113,30 @@
   <button id="themeBtn" type="button" aria-label="Toggle dark mode">Dark</button>
 </nav>
 
-<a id="top"></a><div id="hero">
-  <div class="hero-text">
-    <div class="kicker">Louisiana Tech · Control Systems &amp; Instrumentation</div>
-    <h1>Trylen Stephens</h1>
-    <p>I make plant data say what to do next.</p>
-    <div class="hint">Move the cursor. Every stroke is a second-order system chasing your setpoint. Lower the damping and watch them overshoot. Click to clear.</div>
-  </div>
-  <div class="panel mono" id="panel">
-    <label><span>damping ζ</span><b id="zv">0.22</b><input id="z" type="range" min="0.03" max="1.40" step="0.01" value="0.22"></label>
-    <label><span>ω<sub>n</sub> rad/s</span><b id="wv">2.4</b><input id="w" type="range" min="0.6" max="6" step="0.1" value="2.4"></label>
-    <div class="read" id="read"></div>
-    <div class="row"><button id="clearBtn" type="button">clear</button><button id="saveBtn" type="button">save png</button></div>
-  </div>
-</div>
+<header class="hero wrap" id="top">
+  <div class="kicker">Louisiana Tech · Control Systems &amp; Instrumentation</div>
+  <h1>Trylen Stephens</h1>
+  <p class="tag">I make plant data say what to do next.</p>
 
+  <div class="fig">
+    <div id="plot"></div>
+    <div class="panel">
+      <h3>PID on a slow plant</h3>
+      <label><span>K<sub>p</sub></span><b class="num" id="kpv">3.0</b><input id="kp" type="range" min="0" max="10" step="0.1" value="3"></label>
+      <label><span>K<sub>i</sub></span><b class="num" id="kiv">1.20</b><input id="ki" type="range" min="0" max="5" step="0.05" value="1.2"></label>
+      <label><span>K<sub>d</sub></span><b class="num" id="kdv">0.60</b><input id="kd" type="range" min="0" max="3" step="0.05" value="0.6"></label>
+      <div class="row"><button type="button" data-preset="2,0,0">P</button><button type="button" data-preset="2,1.2,0">PI</button><button type="button" data-preset="3,1.2,0.6">PID</button><button type="button" id="distBtn" title="Add a −0.5 load disturbance at t = 7 s">load</button></div>
+      <table class="num">
+        <tr><td>Overshoot</td><td id="m_os">–</td></tr>
+        <tr><td>Rise time (10–90 %)</td><td id="m_tr">–</td></tr>
+        <tr><td>Settling (±2 %)</td><td id="m_ts">–</td></tr>
+        <tr><td>IAE</td><td id="m_iae">–</td></tr>
+      </table>
+      <div class="row"><button type="button" id="clearBtn">clear ghosts</button><button type="button" id="saveBtn">save png</button></div>
+    </div>
+  </div>
+  <p class="caption">Unit step at t = 1 s. The plant is two first-order lags in series (τ = 1.2 s and 0.35 s) with 0.15 s of dead time. The controller output is clamped to 0–3 with anti-windup, like a heater that cannot cool. Derivative acts on the measurement so a setpoint step does not kick it. Each tuning you try leaves a ghost of the one before.</p>
+</header>
 <main>
   <section id="about">
     <h2>About</h2>
@@ -236,7 +247,7 @@
     </div>
   </section>
 </main>
-<footer>Trylen Stephens · Louisiana Tech University · Ruston, LA · The hero is a p5.js sketch: 120 brush particles under x″ = ω²(r − x) − 2ζω x′.</footer>
+<footer>Trylen Stephens · Louisiana Tech University · Ruston, LA · The figure is a p5.js simulation, 2 ms Euler steps, no data leaves your browser.</footer>
 
 <script>
 /* ---------- theme ---------- */
@@ -248,123 +259,115 @@ applyThemeBtn();
 document.getElementById('themeBtn').addEventListener('click',()=>{
   const next=isDark()?'light':'dark'; root.setAttribute('data-theme',next);
   try{localStorage.setItem('ts-theme',next)}catch(e){}
-  applyThemeBtn(); if(window.resetTrail) window.resetTrail();
+  applyThemeBtn();
 });
 
-/* ---------- second-order brush ---------- */
-const hero=document.getElementById('hero');
-const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const N=reduced?40:120;
-let parts=[], sp, trail, zeta=0.22, wn=2.4, lastMove=-1e9, lastStep=0, hist=[], HN=260, canvas;
-const zEl=document.getElementById('z'), wEl=document.getElementById('w');
-function palette(){
-  return isDark()
-    ? {paper:[11,22,51], inks:[[120,160,255],[120,160,255],[120,160,255],[230,80,90],[255,204,0]], mark:[255,204,0], grid:[255,255,255]}
-    : {paper:[246,244,238], inks:[[0,48,135],[0,48,135],[0,48,135],[203,51,59],[255,204,0]], mark:[203,51,59], grid:[0,0,0]};
+/* ---------- closed loop simulation ---------- */
+const plant={t1:1.2, t2:0.35, K:1.0, dead:0.15, umin:0, umax:3};
+const T=12, DT=0.002, N=Math.round(T/DT), TSTEP=1, TDIST=7, DIST=-0.5;
+function simulate(kp,ki,kd,dist){
+  const pv=new Float32Array(N), u=new Float32Array(N);
+  let x1=0,x2=0,I=0,prev=0;
+  const dl=Math.round(plant.dead/DT); const buf=new Float32Array(dl+1); let di=0;
+  for(let i=0;i<N;i++){
+    const t=i*DT, r=t>=TSTEP?1:0, e=r-x1;
+    const d=-(x1-prev)/DT; prev=x1;
+    const raw=kp*e+ki*I+kd*d;
+    const us=Math.max(plant.umin,Math.min(plant.umax,raw));
+    if(raw===us || (raw>us && e<0) || (raw<us && e>0)) I+=e*DT;   // anti-windup: no integration into the clamp
+    u[i]=us;
+    buf[di]=us; di=(di+1)%buf.length; const ud=buf[di];          // dead time
+    const load=(dist && t>=TDIST)?DIST:0;
+    x2+=DT*((plant.K*ud+load-x2)/plant.t2);
+    x1+=DT*((x2-x1)/plant.t1);
+    pv[i]=x1;
+  }
+  return {pv,u};
 }
-function readout(){
-  zeta=parseFloat(zEl.value); wn=parseFloat(wEl.value);
-  document.getElementById('zv').textContent=zeta.toFixed(2);
-  document.getElementById('wv').textContent=wn.toFixed(1);
-  let s;
-  if(zeta<1){ const mp=Math.exp(-Math.PI*zeta/Math.sqrt(1-zeta*zeta))*100; const ts=4/(zeta*wn); s=`underdamped · overshoot ${mp.toFixed(0)}% · settle ${ts.toFixed(1)} s`; }
-  else if(zeta===1) s='critically damped · no overshoot';
-  else s=`overdamped · slow · settle ~${(4/(wn*(zeta-Math.sqrt(zeta*zeta-1)))).toFixed(1)} s`;
-  document.getElementById('read').textContent=s;
-}
-zEl.addEventListener('input',readout); wEl.addEventListener('input',readout); readout();
-
-function mkPart(i){
-  const pal=palette();
-  const r=Math.random();
-  const ci = r<0.62?0 : r<0.86?3 : 4;   // mostly blue, some red, a little gold
-  const ang=Math.random()*Math.PI*2, rad=18+Math.random()*70;
+function metrics(pv,dist){
+  const i0=Math.round(TSTEP/DT), i1=dist?Math.round(TDIST/DT):N;
+  let peak=-1e9, iae=0, t10=null, t90=null, tset=null;
+  for(let i=i0;i<N;i++) iae+=Math.abs(1-pv[i])*DT;
+  for(let i=i0;i<i1;i++){
+    const v=pv[i]; if(v>peak) peak=v;
+    if(t10===null && v>=0.1) t10=i*DT;
+    if(t90===null && v>=0.9) t90=i*DT;
+    if(Math.abs(v-1)>0.02) tset=i*DT;
+  }
+  const bad=!isFinite(peak)||peak>20;
   return {
-    p:{x:Math.random()*width, y:Math.random()*height}, v:{x:0,y:0},
-    off:{a:ang, r:rad, w:(Math.random()-0.5)*0.6},   // orbit offset around setpoint: cloud, not a dot
-    ci, wgt:1.2+Math.random()*2.6, bris:[-1,-0.5,0,0.5,1].map(k=>k*(0.5+Math.random()*0.8)),
-    alpha:70+Math.random()*90, phase:Math.random()*10
+    os: bad?'unstable':(peak>1?((peak-1)*100).toFixed(0)+' %':'none'),
+    tr: (t10!==null&&t90!==null)?(t90-t10).toFixed(2)+' s':'–',
+    ts: bad?'–':(tset===null?'0.00 s':(tset-TSTEP>=(i1*DT-TSTEP-0.01)?'not settled':(tset-TSTEP).toFixed(2)+' s')),
+    iae: bad?'–':iae.toFixed(3)
   };
 }
-function resetTrail(){
-  trail=createGraphics(width,height); trail.pixelDensity(pixelDensity());
-  trail.clear(); hist=[];
-}
-window.resetTrail=resetTrail;
 
+/* ---------- state + controls ---------- */
+const el=id=>document.getElementById(id);
+let gains={kp:3,ki:1.2,kd:0.6}, dist=false, cur=null, ghosts=[], revealT=0, canvas;
+const plotDiv=el('plot');
+function fmt(){ el('kpv').textContent=gains.kp.toFixed(1); el('kiv').textContent=gains.ki.toFixed(2); el('kdv').textContent=gains.kd.toFixed(2); }
+function rerun(keepGhost=true){
+  if(cur && keepGhost){ ghosts.push(cur.pv); if(ghosts.length>7) ghosts.shift(); }
+  cur=simulate(gains.kp,gains.ki,gains.kd,dist);
+  const m=metrics(cur.pv,dist);
+  el('m_os').textContent=m.os; el('m_tr').textContent=m.tr; el('m_ts').textContent=m.ts; el('m_iae').textContent=m.iae;
+  revealT=performance.now(); fmt();
+}
+let ghostArmed=true;
+for(const k of ['kp','ki','kd']){
+  el(k).addEventListener('input',()=>{ gains[k]=parseFloat(el(k).value); rerun(ghostArmed); ghostArmed=false; });
+  el(k).addEventListener('change',()=>{ ghostArmed=true; });
+}
+document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{
+  const [p,i,d]=b.dataset.preset.split(',').map(Number); gains={kp:p,ki:i,kd:d};
+  el('kp').value=p; el('ki').value=i; el('kd').value=d; rerun(true);
+}));
+el('distBtn').addEventListener('click',()=>{ dist=!dist; el('distBtn').classList.toggle('on',dist); rerun(true); });
+el('clearBtn').addEventListener('click',()=>{ ghosts=[]; });
+el('saveBtn').addEventListener('click',()=>saveCanvas(canvas,'trylen-pid','png'));
+
+/* ---------- drawing ---------- */
+function pal(){
+  return isDark()
+    ? {paper:[11,22,51], ink:[238,241,248], grid:[255,255,255], pv:[120,160,255], sp:[230,80,90], u:[255,204,0], ghost:[120,160,255]}
+    : {paper:[250,248,242], ink:[22,26,36], grid:[0,0,0], pv:[0,48,135], sp:[203,51,59], u:[217,164,0], ghost:[0,48,135]};
+}
 function setup(){
-  canvas=createCanvas(hero.clientWidth, hero.clientHeight); canvas.parent(hero);
-  pixelDensity(Math.min(1.5,displayDensity()));
-  sp={x:width*0.62,y:height*0.42};
-  for(let i=0;i<N;i++) parts.push(mkPart(i));
-  resetTrail();
-  canvas.elt.addEventListener('pointermove',e=>{ if(e.pointerType==='mouse'){ setSP(e.offsetX,e.offsetY);} },{passive:true});
-  canvas.elt.addEventListener('touchmove',e=>{ const r=canvas.elt.getBoundingClientRect(); const t=e.touches[0]; setSP(t.clientX-r.left,t.clientY-r.top); },{passive:true});
-  canvas.elt.addEventListener('click',()=>resetTrail());
-  document.getElementById('clearBtn').addEventListener('click',resetTrail);
-  document.getElementById('saveBtn').addEventListener('click',()=>saveCanvas(canvas,'trylen-setpoint','png'));
+  canvas=createCanvas(plotDiv.clientWidth, plotDiv.clientHeight); canvas.parent(plotDiv);
+  pixelDensity(Math.min(2,displayDensity())); textFont('Times New Roman'); rerun(false);
 }
-function setSP(x,y){ sp={x,y}; lastMove=millis(); }
-function windowResized(){ resizeCanvas(hero.clientWidth, hero.clientHeight); resetTrail(); }
-
+function windowResized(){ resizeCanvas(plotDiv.clientWidth, plotDiv.clientHeight); }
 function draw(){
-  const pal=palette();
-  const dt=Math.min(deltaTime/1000,0.05);
-  const t=millis()/1000;
+  const c=pal(); background(...c.paper);
+  const ml=46, mr=44, mt=18, mb=34, W=width-ml-mr, H=height-mt-mb;
+  let ymax=1.6; for(let i=0;i<N;i+=20) if(cur.pv[i]*1.12>ymax) ymax=Math.min(4,cur.pv[i]*1.12);
+  const X=t=>ml+t/T*W, Y=v=>mt+H-(v/ymax)*H, YU=v=>mt+H-(v/plant.umax)*H;
 
-  // idle: step the setpoint every few seconds like a step input
-  if(millis()-lastMove>3500 && t-lastStep>2.6){
-    sp={x:width*(0.15+Math.random()*0.7), y:height*(0.12+Math.random()*0.62)}; lastStep=t;
-  }
+  // grid + axes
+  textSize(12); textAlign(RIGHT,CENTER); strokeWeight(1);
+  for(let v=0; v<=ymax+1e-6; v+=0.5){ stroke(...c.grid,28); line(ml,Y(v),ml+W,Y(v)); noStroke(); fill(...c.ink,170); text(v.toFixed(1),ml-6,Y(v)); }
+  textAlign(CENTER,TOP);
+  for(let t=0;t<=T;t+=2){ stroke(...c.grid,28); line(X(t),mt,X(t),mt+H); noStroke(); fill(...c.ink,170); text(t+' s',X(t),mt+H+6); }
+  textAlign(LEFT,CENTER); for(let v=0; v<=plant.umax; v+=1){ noStroke(); fill(...c.u,200); text(v,ml+W+6,YU(v)); }
+  noStroke(); fill(...c.ink,200); textAlign(LEFT,BOTTOM); textStyle(ITALIC); text('PV',ml+6,mt+12); fill(...c.u,220); textAlign(RIGHT,BOTTOM); text('u',ml+W-4,mt+12); textStyle(NORMAL);
 
-  // slow fade: erase alpha from a transparent buffer so strokes vanish to clean paper.
-  // A stronger pass every 20 frames clears the rounding floor that a tiny per-frame erase leaves.
-  trail.noStroke(); trail.erase(frameCount%20===0 ? 40 : 5, 0); trail.rect(0,0,width,height); trail.noErase();
-  background(...pal.paper);
-
-  for(const q of parts){
-    q.off.a += q.off.w*dt;
-    const tx=sp.x+Math.cos(q.off.a)*q.off.r, ty=sp.y+Math.sin(q.off.a)*q.off.r;
-    // second-order dynamics: x'' = wn^2 (r - x) - 2 zeta wn x'
-    const ax=wn*wn*(tx-q.p.x) - 2*zeta*wn*q.v.x;
-    const ay=wn*wn*(ty-q.p.y) - 2*zeta*wn*q.v.y;
-    q.v.x+=ax*dt; q.v.y+=ay*dt;
-    const px=q.p.x, py=q.p.y;
-    q.p.x+=q.v.x*dt; q.p.y+=q.v.y*dt;
-
-    const sp_=Math.hypot(q.v.x,q.v.y);
-    if(sp_<0.4) continue;                       // resting brush leaves no mark
-    const w=q.wgt*(1.6/(1+sp_/260));            // fast = thin, slow = fat, like lifting a brush
-    const nx=-q.v.y/sp_, ny=q.v.x/sp_;          // normal to the motion
-    const col=pal.inks[q.ci];
-    for(let k=0;k<q.bris.length;k++){
-      const o=q.bris[k]*w*1.4 + Math.sin(t*3+q.phase+k)*0.4;
-      const a=q.alpha*(1-Math.abs(q.bris[k])*0.45)*Math.min(1,sp_/60);
-      trail.stroke(col[0],col[1],col[2],a);
-      trail.strokeWeight(Math.max(0.4, w*(1-Math.abs(q.bris[k])*0.5)));
-      trail.line(px+nx*o, py+ny*o, q.p.x+nx*o, q.p.y+ny*o);
-    }
-  }
-  image(trail,0,0);
-
-  // setpoint marker
-  noFill(); stroke(...pal.mark,200); strokeWeight(1.2);
-  circle(sp.x,sp.y,14); line(sp.x-11,sp.y,sp.x+11,sp.y); line(sp.x,sp.y-11,sp.x,sp.y+11);
-
-  // scope: reference vs response, x axis only
-  hist.push([sp.x, parts[0].p.x]); if(hist.length>HN) hist.shift();
-  if(width<700) return;
-  const sw=Math.min(260,width-32), sh=64, sx=16, sy=64;
-  noStroke(); fill(...pal.paper,150); rect(sx,sy,sw,sh,8);
-  stroke(...pal.grid,40); strokeWeight(1); line(sx,sy+sh/2,sx+sw,sy+sh/2);
-  const mapy=v=>sy+sh-(v/width)*sh;
+  // ghosts
   noFill();
-  stroke(...pal.mark,220); strokeWeight(1.2); beginShape();
-  for(let i=0;i<hist.length;i++) vertex(sx+i/HN*sw, mapy(hist[i][0])); endShape();
-  const c0=pal.inks[0]; stroke(c0[0],c0[1],c0[2],230); strokeWeight(1.6); beginShape();
-  for(let i=0;i<hist.length;i++) vertex(sx+i/HN*sw, mapy(hist[i][1])); endShape();
-  noStroke(); fill(...pal.grid,140); textFont('JetBrains Mono'); textSize(10);
-  text('r(t)  vs  x(t)   ζ='+zeta.toFixed(2)+'  ωn='+wn.toFixed(1), sx+8, sy+sh+13);
+  ghosts.forEach((g,k)=>{ const a=30+k/Math.max(1,ghosts.length-1)*60; stroke(...c.ghost,a); strokeWeight(1.2); beginShape(); for(let i=0;i<N;i+=6) vertex(X(i*DT),Y(g[i])); endShape(); });
+
+  // setpoint (dashed) and disturbance marker
+  stroke(...c.sp,220); strokeWeight(1.4); drawingContext.setLineDash([6,5]);
+  line(X(0),Y(0),X(TSTEP),Y(0)); line(X(TSTEP),Y(0),X(TSTEP),Y(1)); line(X(TSTEP),Y(1),X(T),Y(1));
+  drawingContext.setLineDash([]);
+  if(dist){ stroke(...c.ink,90); drawingContext.setLineDash([2,4]); line(X(TDIST),mt,X(TDIST),mt+H); drawingContext.setLineDash([]); noStroke(); fill(...c.ink,150); textAlign(LEFT,TOP); text('load −0.5',X(TDIST)+4,mt+2); }
+
+  // reveal
+  const frac=Math.min(1,(performance.now()-revealT)/900), nShow=Math.floor(N*frac);
+  stroke(...c.u,170); strokeWeight(1.1); noFill(); beginShape(); for(let i=0;i<nShow;i+=6) vertex(X(i*DT),YU(cur.u[i])); endShape();
+  stroke(...c.pv); strokeWeight(2.4); beginShape(); for(let i=0;i<nShow;i+=4) vertex(X(i*DT),Y(cur.pv[i])); endShape();
+  if(nShow>0){ const i=nShow-1; noStroke(); fill(...c.pv); circle(X(i*DT),Y(cur.pv[i]),6); }
 }
 </script>
 </body>
