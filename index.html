@@ -7,12 +7,12 @@
 <meta name="description" content="Trylen Stephens. Control Systems and Instrumentation Technology at Louisiana Tech, class of 2027. Sawmill analytics for Hunt Forest Products, PLC and robotics projects.">
 <meta property="og:title" content="Trylen Stephens">
 <meta property="og:description" content="Controls student at Louisiana Tech. I make plant data say what to do next.">
-<meta name="theme-color" content="#020308">
+<meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --sky:#020308; --ink:#eaf2ff; --body:#c9d4e6; --muted:#8a9ab8; --dim:#6f82a3;
+    --sky:#000000; --ink:#eaf2ff; --body:#c9d4e6; --muted:#8a9ab8; --dim:#6f82a3;
     --blue:#7cc4ff; --red:#ff5a63; --gold:#ffcc4d; --line:rgba(140,170,230,.18);
     --display:"Times New Roman",Times,serif; --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
     --gutter:clamp(16px,4vw,64px); --col:min(560px,100%);
@@ -37,15 +37,15 @@
   main{position:relative;z-index:1}
   .col{width:var(--col);padding:0 var(--gutter)}
   .sec{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:96px;padding-bottom:64px;position:relative}
-  .sec .col{background:linear-gradient(90deg,rgba(2,3,8,.82) 0%,rgba(2,3,8,.7) 70%,rgba(2,3,8,0) 100%);padding-top:24px;padding-bottom:24px}
-  @media (max-width:900px){ .sec{justify-content:flex-end} .sec .col{background:linear-gradient(180deg,rgba(2,3,8,0) 0%,rgba(2,3,8,.85) 12%,rgba(2,3,8,.85) 100%);padding-top:40px} }
+  .sec .col{background:linear-gradient(90deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.72) 70%,rgba(0,0,0,0) 100%);padding-top:24px;padding-bottom:24px}
+  @media (max-width:900px){ .sec{justify-content:flex-end} .sec .col{background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.88) 12%,rgba(0,0,0,.88) 100%);padding-top:40px} }
   .sec .num{color:var(--gold);margin-bottom:14px}
   .sec h1{font-size:clamp(3rem,9vw,6.2rem);margin:0 0 22px;text-shadow:var(--flash)}
   .sec h2{font-size:clamp(2.2rem,5.6vw,3.6rem);margin:0 0 18px}
   .sec p{margin:0 0 14px;max-width:46ch}
   .sec p.lead{color:var(--ink);font-size:1.18rem}
   .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
-  .btn{display:inline-block;padding:12px 20px;border:1px solid rgba(170,200,255,.5);border-radius:999px;color:var(--ink);text-decoration:none;background:rgba(3,5,11,.5);transition:border-color .2s,box-shadow .2s}
+  .btn{display:inline-block;padding:12px 20px;border:1px solid rgba(170,200,255,.5);border-radius:999px;color:var(--ink);text-decoration:none;background:rgba(0,0,0,.5);transition:border-color .2s,box-shadow .2s}
   .btn:hover{border-color:var(--gold);box-shadow:0 0 .8em rgba(255,204,77,.25)}
   .scroll-hint{position:absolute;left:var(--gutter);bottom:28px;color:var(--dim)}
 
@@ -59,7 +59,7 @@
   .logo{display:block;width:min(360px,100%);border-radius:6px;margin:6px 0 18px;border:1px solid var(--line)}
 
   .contact{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:10px}
-  .contact a{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--ink);background:rgba(3,5,11,.55)}
+  .contact a{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--ink);background:rgba(0,0,0,.55)}
   .contact a:hover{border-color:var(--gold)}
   .contact small{color:var(--muted);font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
 
@@ -73,7 +73,7 @@
   @media (max-width:640px){ .rail{display:none} }
 
   footer{position:relative;z-index:1;padding:28px var(--gutter) 40px;color:var(--dim);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  .nogl{position:fixed;inset:0;background:radial-gradient(ellipse at 70% 40%,#0b1633 0%,#020308 60%);z-index:0}
+  .nogl{position:fixed;inset:0;background:radial-gradient(ellipse at 70% 40%,#0b1633 0%,#000 60%);z-index:0}
   @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
 </style>
 </head>
@@ -117,7 +117,7 @@
       <h2 class="display">Log to lumber, wired for data</h2>
       <p>Louisiana Tech works with Hunt Forest Products at the LaSalle Lumber sawmill in Urania, Louisiana. The goal is to reduce unplanned downtime and trim loss with data the mill already collects.</p>
       <p>The mill's telemetry, work orders, and vibration surveys live in separate systems that do not share identifiers. I build the models and tools that join them: a process model of every machine center, live signal views on the production dashboard, downtime-to-work-order attribution, and an AI-assisted analysis loop that hunts for rules an operator can act on at 3 AM.</p>
-      <p class="label" style="color:var(--dim)">The shape beside you is the plant model: machine centers as nodes, flow as edges.</p>
+      <p class="label" style="color:var(--dim)">Beside you: a log meeting the saw.</p>
     </div>
   </section>
 
@@ -153,11 +153,11 @@
       <h2 class="display">Mechanism before statistics</h2>
       <p>Senior in Control Systems &amp; Instrumentation Technology at Louisiana Tech. Three years of industry-partnered research, most of it turning messy operational data into rules a person can act on.</p>
       <p>I have tuned PID loops, programmed Do-More PLCs, scored local RAG pipelines on hand-built benchmarks, and shipped releases to a sawmill's production dashboard. I like problems where you have to understand the machine before the numbers mean anything.</p>
-      <p class="label" style="color:var(--dim)">Beside you: a telemetry surface, one ridge where the line stopped.</p>
+      <p class="label" style="color:var(--dim)">Beside you: the plant model. Machine centers as nodes, flow as edges.</p>
     </div>
   </section>
 
-  <section class="sec" id="contact" data-form="0">
+  <section class="sec" id="contact" data-form="4">
     <div class="col">
       <div class="label num">04 — Contact</div>
       <h2 class="display">Say hello</h2>
@@ -176,83 +176,110 @@
 <script>
 (function(){
 'use strict';
-/* ---------------- particle stage: one WebGL point cloud that changes form ---------------- */
+/* ---------------- particle stage: one WebGL point cloud that changes form per section ---------------- */
 const canvas=document.getElementById('stage');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mobile=Math.min(innerWidth,innerHeight)<700;
-let N = mobile?45000:110000;
+const N = mobile?45000:110000;
 const gl=canvas.getContext('webgl',{antialias:false,alpha:false,depth:false,preserveDrawingBuffer:true,powerPreference:'high-performance'});
 if(!gl){ const d=document.createElement('div'); d.className='nogl'; document.body.prepend(d); canvas.remove(); document.getElementById('perf').textContent='static sky'; return; }
 
-/* ---- forms ---- */
+/* ---- helpers ---- */
 const R=Math.random;
 function gauss(){ return (R()+R()+R()-1.5)*1.4; }
-function logForm(n,out,tint){
-  // a log: bark on a cylinder, growth rings on both end faces
-  const L=1.5, r0=0.72, rings=11;
-  for(let i=0;i<n;i++){
-    const o=i*3;
-    if(R()<0.5){ // bark
-      const th=R()*Math.PI*2, x=(R()*2-1)*L, rr=r0+0.02*Math.sin(7*th+4*x)+0.012*gauss();
-      out[o]=x; out[o+1]=Math.cos(th)*rr; out[o+2]=Math.sin(th)*rr; tint[i]=0.15+0.2*R();
-    }else{ // end face rings; early rings wide, late rings tight
-      const k=Math.floor(R()*rings), f=(k+0.5)/rings, rr=r0*Math.pow(f,0.72)+0.008*gauss(), th=R()*Math.PI*2;
-      const side=R()<0.5?-L:L;
-      out[o]=side+0.01*gauss(); out[o+1]=Math.cos(th)*rr; out[o+2]=Math.sin(th)*rr; tint[i]=0.75+0.25*R();
-    }
-  }
+// writers: each form gets a small API to place points
+function writer(out,tint){ let i=0; return {
+  put(x,y,z,t){ if(i>=N) return; out[i*3]=x; out[i*3+1]=y; out[i*3+2]=z; tint[i]=t; i++; },
+  left(){ return N-i; }, n(){ return i; } }; }
+function segment(w,a,b,r,count,t){ // cylinder shell between two points
+  const dx=b[0]-a[0],dy=b[1]-a[1],dz=b[2]-a[2], L=Math.hypot(dx,dy,dz)||1, ux=dx/L,uy=dy/L,uz=dz/L;
+  let px,py,pz; if(Math.abs(uy)<0.9){ px=uy*0-uz*1; py=uz*0-ux*0; pz=ux*1-uy*0; } else { px=1;py=0;pz=0; }
+  let pl=Math.hypot(px,py,pz)||1; px/=pl;py/=pl;pz/=pl; const qx=uy*pz-uz*py,qy=uz*px-ux*pz,qz=ux*py-uy*px;
+  for(let k=0;k<count;k++){ const s=R(), th=R()*Math.PI*2, c=Math.cos(th)*r, d=Math.sin(th)*r;
+    w.put(a[0]+ux*L*s+px*c+qx*d, a[1]+uy*L*s+py*c+qy*d, a[2]+uz*L*s+pz*c+qz*d, t); } }
+function box(w,c,sz,count,t,tEnd){ // surface of a box, area-weighted faces; optional different tint on ±z ends
+  const [sx,sy,sz_]=sz, ax=sy*sz_, ay=sx*sz_, az=sx*sy, tot=2*(ax+ay+az);
+  for(let k=0;k<count;k++){ let u=R()*tot, x,y,z, tt=t;
+    if(u<2*ax){ x=(u<ax?-0.5:0.5)*sx; y=(R()-0.5)*sy; z=(R()-0.5)*sz_; }
+    else if(u<2*ax+2*ay){ u-=2*ax; y=(u<ay?-0.5:0.5)*sy; x=(R()-0.5)*sx; z=(R()-0.5)*sz_; }
+    else { u-=2*ax+2*ay; z=(u<az?-0.5:0.5)*sz_; x=(R()-0.5)*sx; y=(R()-0.5)*sy; tt=tEnd==null?t:tEnd; }
+    w.put(c[0]+x,c[1]+y,c[2]+z,tt); } }
+function sphere(w,c,r,count,t){ for(let k=0;k<count;k++){ const z=R()*2-1, rr=Math.sqrt(1-z*z), a=R()*Math.PI*2; w.put(c[0]+rr*Math.cos(a)*r,c[1]+z*r,c[2]+rr*Math.sin(a)*r,t); } }
+
+/* ---- forms ---- */
+function stepForm(out,tint){
+  // a step response on a grid: the trade, in one picture
+  const w=writer(out,tint), x0=-1.8, x1=1.8, y0=-0.65, yh=1.15;
+  const grid=Math.floor(N*0.5), curve=Math.floor(N*0.3), sp=N-grid-curve;
+  for(let k=0;k<grid;k++){ // grid lines on the floor plane, a few vertical too
+    if(R()<0.85){ if(R()<0.5){ const gx=x0+(x1-x0)*Math.floor(R()*13)/12; w.put(gx+0.004*gauss(), y0+0.004*gauss(), (R()*2-1)*1.0, 0.05); }
+                 else { const gz=-1+2*Math.floor(R()*7)/6; w.put(x0+(x1-x0)*R(), y0+0.004*gauss(), gz+0.004*gauss(), 0.05); } }
+    else { const gy=y0+yh*Math.floor(R()*5)/4; w.put(x0+(x1-x0)*R(), gy+0.004*gauss(), -1+0.004*gauss(), 0.05); } }
+  const z=0.32, wn=4.2, wd=wn*Math.sqrt(1-z*z);
+  for(let k=0;k<curve;k++){ const t=R()*5, y=t<0.35?0:1-Math.exp(-z*wn*(t-0.35))*(Math.cos(wd*(t-0.35))+z/Math.sqrt(1-z*z)*Math.sin(wd*(t-0.35)));
+    w.put(x0+(x1-x0)*t/5+0.012*gauss(), y0+yh*0.8*y+0.012*gauss(), 0.012*gauss(), 0.95+0.05*R()); }
+  for(let k=0;k<sp;k++){ const t=R()*5; if(Math.floor(t*8)%2) continue; w.put(x0+(x1-x0)*t/5, y0+yh*0.8+0.006*gauss(), 0.006*gauss(), 0.55); }
+  while(w.left()>0) w.put(x0+(x1-x0)*R(), y0, (R()*2-1), 0.05);
 }
-function networkForm(n,out,tint){
-  // plant model: a serpentine main line of machine centers with side branches
-  const nodes=[], edges=[];
-  const main=16;
-  for(let k=0;k<main;k++){ const t=k/(main-1); const x=-1.9+3.8*t, y=0.55*Math.sin(t*Math.PI*2.2), z=0.5*Math.cos(t*Math.PI*1.4); nodes.push([x,y,z,0.05+0.05*R()]); if(k) edges.push([k-1,k]); }
-  for(let k=0;k<12;k++){ const a=1+Math.floor(R()*(main-2)); const b=nodes[a]; nodes.push([b[0]+0.35*gauss(),b[1]+0.5*gauss(),b[2]+0.5*gauss(),0.03+0.03*R()]); edges.push([a,nodes.length-1]); }
-  for(let i=0;i<n;i++){
-    const o=i*3;
-    if(R()<0.4){ const nd=nodes[Math.floor(R()*nodes.length)]; const s=nd[3]*1.3; out[o]=nd[0]+s*gauss(); out[o+1]=nd[1]+s*gauss(); out[o+2]=nd[2]+s*gauss(); tint[i]=0.85+0.15*R(); }
-    else{ const e=edges[Math.floor(R()*edges.length)], a=nodes[e[0]], b=nodes[e[1]], t=R(); out[o]=a[0]+(b[0]-a[0])*t+0.01*gauss(); out[o+1]=a[1]+(b[1]-a[1])*t+0.01*gauss(); out[o+2]=a[2]+(b[2]-a[2])*t+0.01*gauss(); tint[i]=0.1+0.2*R(); }
-  }
+function logBladeForm(out,tint){
+  // a log with growth rings, and a saw blade part way through it
+  const w=writer(out,tint), L=1.35, r0=0.62, rings=11, bladeN=Math.floor(N*0.32), logN=N-bladeN;
+  for(let i=0;i<logN;i++){
+    if(R()<0.5){ const th=R()*Math.PI*2, x=(R()*2-1)*L, rr=r0+0.02*Math.sin(7*th+4*x)+0.012*gauss(); w.put(x,Math.cos(th)*rr,Math.sin(th)*rr,0.15+0.2*R()); }
+    else { const k=Math.floor(R()*rings), f=(k+0.5)/rings, rr=r0*Math.pow(f,0.72)+0.008*gauss(), th=R()*Math.PI*2, side=R()<0.5?-L:L; w.put(side+0.01*gauss(),Math.cos(th)*rr,Math.sin(th)*rr,0.75+0.25*R()); } }
+  const bx=0.45, br=1.05, teeth=40;
+  for(let i=0;i<bladeN;i++){ const u=R(), th=R()*Math.PI*2;
+    if(u<0.5){ const tooth=((th*teeth/(2*Math.PI))%1), rr=br-0.06*tooth+0.006*gauss(); w.put(bx+0.006*gauss(),Math.cos(th)*rr,Math.sin(th)*rr,0.35); }
+    else if(u<0.65){ const rr=0.16+0.006*gauss(); w.put(bx+0.006*gauss(),Math.cos(th)*rr,Math.sin(th)*rr,0.35); }
+    else { const sp=Math.floor(R()*8)*Math.PI/4, rr=0.16+(br-0.2)*R(); w.put(bx+0.006*gauss(),Math.cos(sp)*rr+0.006*gauss(),Math.sin(sp)*rr+0.006*gauss(),0.3); } }
 }
-function boardsForm(n,out,tint){
-  // a lumber package: 5 layers of 4 boards, points on the box surfaces, gold ends
-  const W=0.3,H=0.11,L=1.5,g=0.05, cols=4, rows=5;
-  const x0=-(cols*(W+g)-g)/2, y0=-(rows*(H+g)-g)/2;
-  for(let i=0;i<n;i++){
-    const o=i*3, c=Math.floor(R()*cols), r=Math.floor(R()*rows);
-    const cx=x0+c*(W+g)+W/2, cy=y0+r*(H+g)+H/2;
-    const u=R(); let x,y,z; let end=false;
-    if(u<0.08){ end=true; z=(R()<0.5?-1:1)*L; x=cx+(R()-0.5)*W; y=cy+(R()-0.5)*H; }
-    else if(u<0.6){ y=cy+(R()<0.5?-0.5:0.5)*H; x=cx+(R()-0.5)*W; z=(R()*2-1)*L; }
-    else{ x=cx+(R()<0.5?-0.5:0.5)*W; y=cy+(R()-0.5)*H; z=(R()*2-1)*L; }
-    out[o]=z; out[o+1]=y; out[o+2]=x; tint[i]=end?0.9+0.1*R():0.1+0.25*R();
-  }
+function armForm(out,tint){
+  // a robot arm over a conveyor with parts, and a camera on a post
+  const w=writer(out,tint), n=N;
+  box(w,[0,-0.62,0.25],[3.2,0.08,0.55],Math.floor(n*0.30),0.12);                 // belt
+  for(let k=-2;k<=2;k++) box(w,[k*0.62+0.1,-0.5,0.25],[0.15,0.15,0.15],Math.floor(n*0.03),0.95,0.95); // parts
+  const B=[0.1,-0.58,-0.5],S=[0.1,-0.1,-0.5],E=[0.55,0.6,-0.25],W=[0.85,0.05,0.1];
+  segment(w,B,S,0.13,Math.floor(n*0.07),0.2); segment(w,S,E,0.09,Math.floor(n*0.08),0.25); segment(w,E,W,0.07,Math.floor(n*0.07),0.25);
+  sphere(w,S,0.14,Math.floor(n*0.04),0.6); sphere(w,E,0.12,Math.floor(n*0.04),0.6); sphere(w,W,0.09,Math.floor(n*0.03),0.6);
+  box(w,[0.85,-0.2,0.1],[0.16,0.22,0.16],Math.floor(n*0.04),0.7);                  // gripper
+  segment(w,[-0.7,-0.58,0.25],[-0.7,0.55,0.25],0.03,Math.floor(n*0.03),0.2);        // camera post
+  box(w,[-0.7,0.6,0.25],[0.2,0.14,0.14],Math.floor(n*0.03),0.7);                    // camera
+  while(w.left()>0) w.put((R()*2-1)*1.6,-0.58+0.004*gauss(),0.25+(R()-0.5)*0.55,0.12);
 }
-function signalForm(n,out,tint){
-  // a telemetry surface: rolling waves with one sharp ridge where the line stopped
-  for(let i=0;i<n;i++){
-    const o=i*3, x=(R()*2-1)*1.9, z=(R()*2-1)*1.1;
-    let y=0.12*Math.sin(3.1*x+1.7*z)+0.08*Math.sin(5.3*z-2.1*x)+0.05*Math.sin(9*x)*Math.cos(7*z);
-    const ridge=Math.exp(-Math.pow((x-0.55)/0.09,2))*0.75*Math.exp(-Math.pow(z/0.9,2));
-    y+=ridge; out[o]=x; out[o+1]=y-0.25; out[o+2]=z; tint[i]=Math.min(1,Math.max(0,(y+0.2)/0.9));
-  }
+function networkForm(out,tint){
+  // the plant model: a serpentine main line of machine centers with side branches
+  const w=writer(out,tint), nodes=[], edges=[], main=16;
+  for(let k=0;k<main;k++){ const t=k/(main-1); nodes.push([-1.9+3.8*t,0.55*Math.sin(t*Math.PI*2.2),0.5*Math.cos(t*Math.PI*1.4),0.065+0.06*R()]); if(k) edges.push([k-1,k]); }
+  for(let k=0;k<12;k++){ const a=1+Math.floor(R()*(main-2)), b=nodes[a]; nodes.push([b[0]+0.35*gauss(),b[1]+0.5*gauss(),b[2]+0.5*gauss(),0.04+0.04*R()]); edges.push([a,nodes.length-1]); }
+  for(let i=0;i<N;i++){
+    if(R()<0.4){ const nd=nodes[Math.floor(R()*nodes.length)], s=nd[3]; w.put(nd[0]+s*gauss(),nd[1]+s*gauss(),nd[2]+s*gauss(),0.85+0.15*R()); }
+    else { const e=edges[Math.floor(R()*edges.length)], a=nodes[e[0]], b=nodes[e[1]], t=R(); w.put(a[0]+(b[0]-a[0])*t+0.01*gauss(),a[1]+(b[1]-a[1])*t+0.01*gauss(),a[2]+(b[2]-a[2])*t+0.01*gauss(),0.1+0.2*R()); } }
 }
-const FORMS=[logForm,networkForm,boardsForm,signalForm];
-const pos=FORMS.map(()=>new Float32Array(N*3)), tints=new Float32Array(N*4), seed=new Float32Array(N*2);
-FORMS.forEach((f,k)=>{ const t=new Float32Array(N); f(N,pos[k],t); for(let i=0;i<N;i++) tints[i*4+k]=t[i]; });
+function monogramForm(out,tint){
+  // "TS" set in Times New Roman, sampled from an offscreen canvas and given a little depth
+  const w=writer(out,tint), c=document.createElement('canvas'), W=480, H=300; c.width=W; c.height=H; const g=c.getContext('2d');
+  let pts=[];
+  if(g){ g.fillStyle='#000'; g.fillRect(0,0,W,H); g.fillStyle='#fff'; g.font='bold 250px "Times New Roman",Times,serif'; g.textAlign='center'; g.textBaseline='middle'; g.fillText('TS',W/2,H/2+12);
+    const d=g.getImageData(0,0,W,H).data; for(let y=0;y<H;y+=2) for(let x=0;x<W;x+=2) if(d[(y*W+x)*4]>128) pts.push([x,y]); }
+  if(pts.length<100){ for(let x=0;x<W;x+=3) for(let y=100;y<200;y+=3) pts.push([x,y]); }
+  const sc=2.6/W;
+  for(let i=0;i<N;i++){ const q=pts[Math.floor(R()*pts.length)], z=(R()-0.5)*0.22; w.put((q[0]-W/2)*sc+0.003*gauss(), -(q[1]-H/2)*sc+0.003*gauss(), z, 0.5+z*2.2); }
+}
+const FORMS=[stepForm,logBladeForm,armForm,networkForm,monogramForm], NF=FORMS.length;
+const pos=FORMS.map(()=>new Float32Array(N*3)), tints=new Float32Array(N*4), tint4=new Float32Array(N), seed=new Float32Array(N*2);
+FORMS.forEach((f,k)=>{ const t=new Float32Array(N); f(pos[k],t); for(let i=0;i<N;i++){ if(k<4) tints[i*4+k]=t[i]; else tint4[i]=t[i]; } });
 for(let i=0;i<N*2;i++) seed[i]=R();
-// stars
 const NS=1400, star=new Float32Array(NS*3), starSeed=new Float32Array(NS*2);
 for(let i=0;i<NS;i++){ const th=R()*Math.PI*2, ph=Math.acos(R()*2-1), r=14; star[i*3]=r*Math.sin(ph)*Math.cos(th); star[i*3+1]=r*Math.cos(ph)*0.6; star[i*3+2]=r*Math.sin(ph)*Math.sin(th); starSeed[i*2]=R(); starSeed[i*2+1]=R(); }
 
 /* ---- GL ---- */
 const VS=`
-attribute vec3 p0,p1,p2,p3; attribute vec4 tint; attribute vec2 seed;
-uniform vec4 w; uniform mat3 rot; uniform float aspect,time,size,zoom,agit,bright; uniform vec2 shift;
-uniform vec3 ca0,cb0,ca1,cb1,ca2,cb2,ca3,cb3;
+attribute vec3 p0,p1,p2,p3,p4; attribute vec4 tint; attribute float tint4; attribute vec2 seed;
+uniform vec4 w; uniform float w4; uniform mat3 rot; uniform float aspect,time,size,zoom,agit,bright; uniform vec2 shift;
+uniform vec3 ca0,cb0,ca1,cb1,ca2,cb2,ca3,cb3,ca4,cb4;
 varying vec3 vC; varying float vA;
 void main(){
-  vec3 p=p0*w.x+p1*w.y+p2*w.z+p3*w.w;
+  vec3 p=p0*w.x+p1*w.y+p2*w.z+p3*w.w+p4*w4;
   float a=agit*(0.6+0.8*seed.x);
   p+=a*vec3(sin(time*1.7+seed.x*41.0), cos(time*1.3+seed.y*37.0), sin(time*1.1+seed.x*23.0+seed.y*11.0))*0.35;
   p=rot*p;
@@ -260,36 +287,36 @@ void main(){
   vec2 xy=p.xy/z*zoom+shift;
   gl_Position=vec4(xy.x/aspect, xy.y, 0.0, 1.0);
   gl_PointSize=max(1.0, size*(0.6+0.8*seed.y)/z);
-  vec3 c=w.x*mix(ca0,cb0,tint.x)+w.y*mix(ca1,cb1,tint.y)+w.z*mix(ca2,cb2,tint.z)+w.w*mix(ca3,cb3,tint.w);
+  vec3 c=w.x*mix(ca0,cb0,tint.x)+w.y*mix(ca1,cb1,tint.y)+w.z*mix(ca2,cb2,tint.z)+w.w*mix(ca3,cb3,tint.w)+w4*mix(ca4,cb4,tint4);
   vC=c; vA=bright*(0.55+0.45*seed.y);
 }`;
 const FS=`
 precision mediump float; varying vec3 vC; varying float vA;
 void main(){ vec2 d=gl_PointCoord-0.5; float r=dot(d,d); float a=smoothstep(0.25,0.02,r)*vA; gl_FragColor=vec4(vC*a,a); }`;
 const FADE_VS=`attribute vec2 q; void main(){ gl_Position=vec4(q,0.0,1.0); }`;
-const FADE_FS=`precision mediump float; uniform float f; void main(){ gl_FragColor=vec4(0.008,0.012,0.03,f); }`;
+const FADE_FS=`precision mediump float; uniform float f; void main(){ gl_FragColor=vec4(0.0,0.0,0.0,f); }`;
 function sh(t,s){ const o=gl.createShader(t); gl.shaderSource(o,s); gl.compileShader(o); if(!gl.getShaderParameter(o,gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o)); return o; }
 function prog(v,f){ const p=gl.createProgram(); gl.attachShader(p,sh(gl.VERTEX_SHADER,v)); gl.attachShader(p,sh(gl.FRAGMENT_SHADER,f)); gl.linkProgram(p); if(!gl.getProgramParameter(p,gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p)); return p; }
 const P=prog(VS,FS), PF=prog(FADE_VS,FADE_FS);
 function buf(data){ const b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW); return b; }
-const B={p:pos.map(buf), tint:buf(tints), seed:buf(seed), star:buf(star), starSeed:buf(starSeed), quad:buf(new Float32Array([-1,-1,1,-1,-1,1,1,1]))};
-const A={}; ['p0','p1','p2','p3','tint','seed'].forEach(n=>A[n]=gl.getAttribLocation(P,n));
-const U={}; ['w','rot','aspect','time','size','zoom','agit','bright','shift','ca0','cb0','ca1','cb1','ca2','cb2','ca3','cb3'].forEach(n=>U[n]=gl.getUniformLocation(P,n));
+const B={p:pos.map(buf), tint:buf(tints), tint4:buf(tint4), seed:buf(seed), star:buf(star), starSeed:buf(starSeed), quad:buf(new Float32Array([-1,-1,1,-1,-1,1,1,1]))};
+const A={}; ['p0','p1','p2','p3','p4','tint','tint4','seed'].forEach(n=>A[n]=gl.getAttribLocation(P,n));
+const U={}; ['w','w4','rot','aspect','time','size','zoom','agit','bright','shift','ca0','cb0','ca1','cb1','ca2','cb2','ca3','cb3','ca4','cb4'].forEach(n=>U[n]=gl.getUniformLocation(P,n));
 const Uf=gl.getUniformLocation(PF,'f'), Aq=gl.getAttribLocation(PF,'q');
 const hex=h=>[parseInt(h.slice(1,3),16)/255,parseInt(h.slice(3,5),16)/255,parseInt(h.slice(5,7),16)/255];
-// per-form colours: [a,b] and tint mixes between them
-const COL=[ [hex('#3d7fd6'),hex('#ffcc4d')],   // log: blue bark, gold rings
+const COL=[ [hex('#3d7fd6'),hex('#ffcc4d')],   // step: blue grid, gold response
+            [hex('#3d7fd6'),hex('#ffcc4d')],   // log + blade: blue bark/blade, gold rings
+            [hex('#4a8ae0'),hex('#ffcc4d')],   // arm: blue steel, gold parts
             [hex('#3d7fd6'),hex('#ff5a63')],   // network: blue edges, red nodes
-            [hex('#5aa0ff'),hex('#ffcc4d')],   // boards: blue faces, gold ends
-            [hex('#2b5fb8'),hex('#ffcc4d')] ]; // signal: blue floor, gold peaks
-const FORM_ROT=[ [0.9,0.35], [0.2,0.55], [1.0,0.42], [0.4,0.85] ]; // base yaw, pitch per form
-const ZOOM=[1.05,0.95,1.0,1.0];
-const BRIGHT=[1.0,0.5,0.32,1.0]; // dense forms glow less per point
+            [hex('#5aa0ff'),hex('#fff1c2')] ]; // monogram: blue to warm white
+const FORM_ROT=[ [0.35,0.28], [0.5,0.3], [0.55,0.32], [0.2,0.55], [0.0,0.05] ];
+const ZOOM=[1.0,1.05,1.0,0.95,1.0];
+const BRIGHT=[0.75,0.9,0.5,0.5,0.2];
 
 /* ---- state ---- */
 const sections=[...document.querySelectorAll('.sec')];
-let active=0, w=[1,0,0,0], wt=[1,0,0,0], yaw=0.9, pitch=0.35, zoom=1.05, mx=0, my=0, dpr=Math.min(1.5,devicePixelRatio||1), drawN=N;
-function targetForm(i){ const f=+sections[i].dataset.form; wt=[0,0,0,0]; wt[f]=1; }
+let active=-1, w=[1,0,0,0,0], wt=[1,0,0,0,0], yaw=0.35, pitch=0.28, zoom=1.0, mx=0, my=0, dpr=Math.min(1.5,devicePixelRatio||1), drawN=N;
+function targetForm(i){ const f=+sections[i].dataset.form; wt=[0,0,0,0,0]; wt[f]=1; }
 const railLinks=[...document.querySelectorAll('#rail a')];
 function updateActive(){
   const line=scrollY+innerHeight*0.45; let a=0;
@@ -298,45 +325,40 @@ function updateActive(){
 }
 addEventListener('scroll',updateActive,{passive:true}); updateActive();
 addEventListener('pointermove',e=>{ mx=(e.clientX/innerWidth-0.5); my=(e.clientY/innerHeight-0.5); },{passive:true});
-function resize(){ dpr=Math.min(1.5,devicePixelRatio||1); canvas.width=Math.floor(innerWidth*dpr); canvas.height=Math.floor(innerHeight*dpr); gl.viewport(0,0,canvas.width,canvas.height); gl.clearColor(0.008,0.012,0.03,1); gl.clear(gl.COLOR_BUFFER_BIT); }
+function resize(){ dpr=Math.min(1.5,devicePixelRatio||1); canvas.width=Math.floor(innerWidth*dpr); canvas.height=Math.floor(innerHeight*dpr); gl.viewport(0,0,canvas.width,canvas.height); gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT); }
 addEventListener('resize',resize); resize();
 
-function bind(loc,b,sz){ gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,sz,gl.FLOAT,false,0,0); }
-function rotMat(y,p){ const cy=Math.cos(y),sy=Math.sin(y),cp=Math.cos(p),sp=Math.sin(p);
-  // rows: Rx(pitch)*Ry(yaw); column-major for GL
-  return new Float32Array([cy,-sp*sy,-cp*sy,  0,cp,-sp,  sy,sp*cy,cp*cy]); }
+function bind(loc,b,sz){ if(loc<0) return; gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,sz,gl.FLOAT,false,0,0); }
+function rotMat(y,p){ const cy=Math.cos(y),sy=Math.sin(y),cp=Math.cos(p),sp=Math.sin(p); return new Float32Array([cy,-sp*sy,-cp*sy, 0,cp,-sp, sy,sp*cy,cp*cy]); }
 
 let last=performance.now(), t0=last, fpsAcc=0, fpsN=0, lastAdapt=last;
 function frame(now){
   const dt=Math.min(0.05,(now-last)/1000); last=now; const t=(now-t0)/1000;
-  // ease weights, camera
-  const k=1-Math.exp(-dt/0.9); let dom=0;
-  for(let i=0;i<4;i++){ w[i]+=(wt[i]-w[i])*k; dom=Math.max(dom,w[i]); }
-  let f=0; for(let i=1;i<4;i++) if(w[i]>w[f]) f=i;
-  const ty=FORM_ROT[f][0]+(reduced?0:0.12*t)+mx*0.35, tp=FORM_ROT[f][1]+my*0.25;
-  yaw+=(ty-yaw)*k; pitch+=(tp-pitch)*k; zoom+=(ZOOM[f]*(innerWidth>900?1:0.72)-zoom)*k;
-  const agit=Math.max(0,1-dom)*2.0;                         // boil while morphing, still at rest
-  const wide=innerWidth>900, shiftX=wide?0.62:0.0, shiftY=wide?0.0:0.55;
+  const k=1-Math.exp(-dt/0.9); let dom=0, f=0;
+  for(let i=0;i<NF;i++){ w[i]+=(wt[i]-w[i])*k; if(w[i]>dom){ dom=w[i]; f=i; } }
+  // gentle sway instead of a full spin, so plots and letters never go edge-on
+  const ty=FORM_ROT[f][0]+(reduced?0:0.22*Math.sin(0.28*t))+mx*0.35, tp=FORM_ROT[f][1]+(reduced?0:0.06*Math.sin(0.19*t))+my*0.25;
+  yaw+=(ty-yaw)*k; pitch+=(tp-pitch)*k;
+  const wide=innerWidth>900; zoom+=(ZOOM[f]*(wide?1:0.72)-zoom)*k;
+  const agit=Math.max(0,1-dom)*2.0, shiftX=wide?0.62:0.0, shiftY=wide?0.0:0.55;
+  let bright=0; for(let i=0;i<NF;i++) bright+=w[i]*BRIGHT[i];
 
-  // fade previous frame (trails)
   gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
   gl.useProgram(PF); gl.uniform1f(Uf, reduced?1.0:0.28); bind(Aq,B.quad,2); gl.drawArrays(gl.TRIANGLE_STRIP,0,4); gl.disableVertexAttribArray(Aq);
 
   gl.blendFunc(gl.ONE,gl.ONE);
   gl.useProgram(P);
   gl.uniform1f(U.aspect,innerWidth/innerHeight); gl.uniform1f(U.time,t); gl.uniform2f(U.shift,shiftX,shiftY);
-  for(let i=0;i<4;i++){ gl.uniform3fv(U['ca'+i],COL[i][0]); gl.uniform3fv(U['cb'+i],COL[i][1]); }
-  // stars: slow parallax, far away, all four form slots bound to the same buffer
-  gl.uniformMatrix3fv(U.rot,false,rotMat(yaw*0.15,pitch*0.15)); gl.uniform4f(U.w,1,0,0,0); gl.uniform1f(U.zoom,1); gl.uniform1f(U.size,26*dpr); gl.uniform1f(U.agit,0); gl.uniform1f(U.bright,1.0);
-  ['p0','p1','p2','p3'].forEach(n=>bind(A[n],B.star,3)); bind(A.tint,B.starSeed,2); bind(A.seed,B.starSeed,2);
-  gl.vertexAttribPointer(A.tint,2,gl.FLOAT,false,0,0);
+  for(let i=0;i<NF;i++){ gl.uniform3fv(U['ca'+i],COL[i][0]); gl.uniform3fv(U['cb'+i],COL[i][1]); }
+  // stars
+  gl.uniformMatrix3fv(U.rot,false,rotMat(yaw*0.15,pitch*0.15)); gl.uniform4f(U.w,1,0,0,0); gl.uniform1f(U.w4,0); gl.uniform1f(U.zoom,1); gl.uniform1f(U.size,26*dpr); gl.uniform1f(U.agit,0); gl.uniform1f(U.bright,1.0);
+  ['p0','p1','p2','p3','p4'].forEach(n=>bind(A[n],B.star,3)); bind(A.tint,B.starSeed,2); bind(A.tint4,B.starSeed,1); bind(A.seed,B.starSeed,2);
   gl.drawArrays(gl.POINTS,0,NS);
   // the form
-  gl.uniformMatrix3fv(U.rot,false,rotMat(yaw,pitch)); gl.uniform4fv(U.w,w); gl.uniform1f(U.zoom,zoom); gl.uniform1f(U.size,(mobile?8:6.5)*dpr); gl.uniform1f(U.agit,agit); gl.uniform1f(U.bright,0.16*(110000/drawN)*(w[0]*BRIGHT[0]+w[1]*BRIGHT[1]+w[2]*BRIGHT[2]+w[3]*BRIGHT[3]));
-  for(let i=0;i<4;i++) bind(A['p'+i],B.p[i],3); bind(A.tint,B.tint,4); bind(A.seed,B.seed,2);
+  gl.uniformMatrix3fv(U.rot,false,rotMat(yaw,pitch)); gl.uniform4f(U.w,w[0],w[1],w[2],w[3]); gl.uniform1f(U.w4,w[4]); gl.uniform1f(U.zoom,zoom); gl.uniform1f(U.size,(mobile?8:6.5)*dpr); gl.uniform1f(U.agit,agit); gl.uniform1f(U.bright,0.16*(110000/drawN)*bright);
+  for(let i=0;i<NF;i++) bind(A['p'+i],B.p[i],3); bind(A.tint,B.tint,4); bind(A.tint4,B.tint4,1); bind(A.seed,B.seed,2);
   gl.drawArrays(gl.POINTS,0,drawN);
 
-  // adaptive quality: if the frame rate sags, draw fewer particles
   fpsAcc+=dt; fpsN++;
   if(now-lastAdapt>2500){ const fps=fpsN/fpsAcc; if(fps<38 && drawN>N*0.3){ drawN=Math.floor(drawN*0.65); } document.getElementById('perf').textContent=Math.round(fps)+' fps · '+(drawN/1000|0)+'k points'; fpsAcc=0; fpsN=0; lastAdapt=now; }
   requestAnimationFrame(frame);
