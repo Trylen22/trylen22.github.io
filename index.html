@@ -32,7 +32,7 @@
   nav .brand{color:var(--ink)}
   nav ul{list-style:none;display:flex;gap:28px;margin:0;padding:0}
   nav li a:hover{color:var(--gold)}
-  @media (max-width:640px){ nav ul{gap:16px} nav li:nth-child(3){display:none} }
+  @media (max-width:640px){ nav ul{gap:16px} nav li:nth-child(1), nav li:nth-child(4){display:none} }
 
   main{position:relative;z-index:1}
   .col{width:var(--col);padding:0 var(--gutter)}
@@ -85,6 +85,7 @@
   <ul>
     <li><a href="#mill">Mill</a></li>
     <li><a href="#projects">Projects</a></li>
+    <li><a href="demos/">Demos</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="Trylen_Stephens_Resume.pdf">Resume</a></li>
@@ -128,15 +129,17 @@
       <img class="logo" src="assets/convision-logo.png" alt="CONVISION ASCII logo: an eye above the word CONVISION, vision-guided conveyor sorting">
       <ul class="proj">
         <li><span class="t">CONVISION</span><span class="l label"><a href="https://trylen22.github.io/capstone-vision-sorter/">Demo</a><a href="https://github.com/Trylen22/capstone-vision-sorter">Repo</a></span>
-          <span class="d">Capstone, fall 2026. A Jetson Nano camera classifies parts on a running belt, a PLC swings a diverter, every detection lands in SQL, and Ignition SCADA shows counts and belt state.</span></li>
+          <span class="d">Capstone concept, fall 2026. An animated sequence proposes camera classification, PLC conveyor and diverter control, SQL detection records, and an Ignition reporting view.</span></li>
         <li><span class="t">JetMax elevator storage</span><span class="l label"><a href="https://trylen22.github.io/capstone-elevator-storage/">Live</a><a href="https://github.com/Trylen22/capstone-elevator-storage">Repo</a></span>
-          <span class="d">A robot arm on a lift mast stores parts in a rack. WebGL, two-link inverse kinematics, and a regression check over 5,766 poses.</span></li>
+          <span class="d">A concept animation of a robot arm on a lift mast storing parts in a rack. WebGL, two-link inverse kinematics, and a regression check over 5,766 modeled poses.</span></li>
+        <li><span class="t">Lite6 Lab Deck</span><span class="l label"><a href="demos/lite6/">Demo</a><a href="https://github.com/Trylen22/lite6-lab-control">Repo</a></span>
+          <span class="d">Local camera inspection, calibrated robot demonstrations, wrist hand following, and a Blockly/3D programming simulator.</span></li>
         <li><span class="t">JetMax control scripts</span><span class="l label"><a href="https://github.com/Trylen22/jetmax-control">Repo</a></span>
           <span class="d">Python on a Jetson Nano: vision pick from a conveyor, Allen-Bradley PLC integration, WASD jogging.</span></li>
         <li><span class="t">Betaflix RAG tutor</span><span class="l label"></span>
           <span class="d">Two years scoring local retrieval pipelines (LlamaIndex, ChromaDB, Ollama) on hand-built benchmarks for technical training content.</span></li>
         <li><span class="t">Inside the instruction</span><span class="l label"><a href="https://trylen22.github.io/arm-inside/">Watch</a></span>
-          <span class="d">A 1080p animation of one ARMv8-A instruction, packaged as a single HTML file.</span></li>
+          <span class="d">A 1080p animation of ARMv8-A load, add, and store data flow, packaged as a single HTML file.</span></li>
         <li><span class="t">Common Ground</span><span class="l label"><a href="https://trylen22.github.io/capstone-idea-board/">Live</a></span>
           <span class="d">No-login idea board for the capstone team, Supabase behind a static page.</span></li>
         <li><span class="t">Longitudinal study</span><span class="l label"><a href="https://trylen22.github.io/trylen-longitudinal-study/">Read</a></span>

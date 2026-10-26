@@ -1,0 +1,23 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:15.119
+ARMv8-A instruction data flow
+A conceptual animation follows load, add, and store operations. It is not a cycle-accurate processor
+model.
+
+2
+00:00:15.219 --> 00:00:29.126
+Registers, arithmetic, and memory
+The diagram separates register values, the integer ALU, and memory addresses.
+
+3
+00:00:29.226 --> 00:00:43.131
+Follow the instruction operands
+LDR, ADD, and STR connect the instruction text to the changing register and memory values.
+
+4
+00:00:43.231 --> 00:00:56.983
+Check the final state
+The example loads 42, adds 7, and stores 49. The film explains architectural data flow rather than
+physical timing.

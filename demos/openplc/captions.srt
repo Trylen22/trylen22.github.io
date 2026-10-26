@@ -1,0 +1,23 @@
+1
+00:00:00,000 --> 00:00:06,153
+Structured Text and ladder sketch
+This experimental OpenPLC fork displays a ladder sketch beside the Structured Text editor. No PLC is
+connected.
+
+2
+00:00:06,253 --> 00:00:13,225
+Edit the program source
+The sketch updates from supported assignments. It is a display-only aid; Structured Text remains the
+program.
+
+3
+00:00:13,325 --> 00:00:20,349
+Inspect a conditional assignment
+The parser supports a limited subset of ST. The sketch is not a verified conversion to an executable
+ladder program.
+
+4
+00:00:20,449 --> 00:00:26,216
+Agent interface
+The fork includes an ST-editing chat panel. This recording shows the interface without submitting
+code to a model.

@@ -1,0 +1,9 @@
+1
+00:00:00,000 --> 00:00:10,638
+Engineering portfolio
+A browser-based index of engineering work, project links, and supporting material.
+
+2
+00:00:10,738 --> 00:00:19,583
+Browse the projects
+The site connects the public project pages with source repositories and technical context.

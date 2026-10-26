@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:10,104
+Vision sorter concept
+An animated sequence shows a proposed camera, PLC, conveyor, and reporting workflow. It is not
+connected to hardware.
+
+2
+00:00:10,204 --> 00:00:19,120
+Stop, inspect, and classify
+The proposed sequence uses a sensor to position each object for image classification.
+
+3
+00:00:19,220 --> 00:00:28,983
+Route the classified part
+The overhead view follows the material path. Counts and hardware are illustrative.

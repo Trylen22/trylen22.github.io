@@ -1,0 +1,15 @@
+1
+00:00:00,000 --> 00:00:06,166
+Lite6 block programming simulator
+The Lab page runs a block program against a 3D robot model. This recording uses simulation only.
+
+2
+00:00:06,266 --> 00:00:20,167
+Execute the shelf transfer example
+The simulator animates the sequence while the block workspace shows the program structure.
+
+3
+00:00:20,267 --> 00:00:35,050
+Inspect the simulated tool motion
+The camera inset follows the wrist view. This demonstrates the program preview, not a physical
+pickup.

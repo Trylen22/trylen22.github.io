@@ -1,0 +1,27 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.218
+ConVision data flow
+Selected stages from the vision-guided sorting concept. Hardware, protocol, and timing are
+illustrative.
+
+2
+00:00:04.318 --> 00:00:11.230
+Position the part
+The control sequence brings a part into the camera inspection position.
+
+3
+00:00:11.330 --> 00:00:18.247
+Classify the image
+The Jetson-side vision stage assigns a class to the inspected part.
+
+4
+00:00:18.347 --> 00:00:25.263
+Transfer the class to the PLC
+The class result becomes control data for the sorting sequence.
+
+5
+00:00:25.363 --> 00:00:32.149
+Route the part
+The PLC coordinates the conveyor and diverter to send the part to its matching bin.

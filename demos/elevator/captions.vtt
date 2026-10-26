@@ -1,0 +1,27 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.183
+Elevator storage concept
+A PLC coordinates the lift, shelf transfer, and return sequence. This is a concept simulation.
+
+2
+00:00:05.283 --> 00:00:13.190
+Store a box
+The lift carries the robot and transfer tray to the selected shelf.
+
+3
+00:00:13.290 --> 00:00:21.197
+Transfer at shelf height
+The arm transfers the box after the platform reaches its target level.
+
+4
+00:00:21.297 --> 00:00:29.263
+Return to the loading station
+The sequence keeps lift positioning separate from robot transfer motion.
+
+5
+00:00:29.363 --> 00:00:42.149
+Retrieve a box
+The reverse sequence returns stored material to the collection station. Timing and geometry are
+illustrative.

@@ -1,0 +1,112 @@
+[
+  {
+    "slug": "lite6",
+    "title": "Lite6 Lab Deck",
+    "repository": "https://github.com/Trylen22/lite6-lab-control",
+    "type": "Simulation",
+    "description": "A Blockly shelf-transfer program runs beside a 3D Lite6 model and simulated wrist-camera view.",
+    "duration_seconds": 35.2,
+    "video_bytes": 1879413,
+    "video_sha256": "271837af3c0bbbeaf905a9a85cee40188ef0da8b15486e0f204bb74133ca67b0",
+    "recorded": "2026-10-26"
+  },
+  {
+    "slug": "jetmax",
+    "title": "JetMax control deck",
+    "repository": "https://github.com/Trylen22/jetmax-control",
+    "type": "Recorded lab footage",
+    "description": "Existing monitor footage shows the JetMax dashboard, operator controls, and camera preview.",
+    "duration_seconds": 40.0,
+    "video_bytes": 10786890,
+    "video_sha256": "28a499afcd618fce28faa165b34ef97915319ab78600fad8ade6736d6bec94f6",
+    "recorded": "2026-10-26"
+  },
+  {
+    "slug": "openplc",
+    "title": "Structured Text and ladder sketch",
+    "repository": "https://github.com/Trylen22/openplc-editor/tree/feature/ladder-agent",
+    "type": "Editor demonstration",
+    "description": "Local ST edits update the experimental ladder sketch. The agent panel is shown without a model request.",
+    "duration_seconds": 26.366667,
+    "video_bytes": 384368,
+    "video_sha256": "6703f4b65b44c810a461b1b480331529b7f9a54e6be7998e9b4004bfbd5d6048",
+    "recorded": "2026-10-26"
+  },
+  {
+    "slug": "convision",
+    "title": "ConVision data flow",
+    "repository": "https://github.com/Trylen22/convision-dataflow",
+    "type": "Concept animation",
+    "description": "Selected stages trace a part classification from camera inspection to PLC-controlled routing.",
+    "duration_seconds": 32.3,
+    "video_bytes": 6403286,
+    "video_sha256": "89900c32c6270b79f0bde5b5b74df5b2d7c9d7656f26ec6bf05e98f57e4a429c",
+    "recorded": "2026-10-26"
+  },
+  {
+    "slug": "elevator",
+    "title": "Elevator storage",
+    "repository": "https://github.com/Trylen22/capstone-elevator-storage",
+    "type": "Concept simulation",
+    "description": "Store and retrieve sequences show the proposed lift, shelf transfer, and return workflow.",
+    "duration_seconds": 42.3,
+    "video_bytes": 607386,
+    "video_sha256": "99d025066c2dac7833e8971bdb62859e4e8235cf95b1a35ff50fbbb932097103",
+    "recorded": "2026-10-26"
+  },
+  {
+    "slug": "sorter",
+    "title": "Vision sorter",
+    "repository": "https://github.com/Trylen22/capstone-vision-sorter",
+    "type": "Concept animation",
+    "description": "A proposed camera, conveyor, diverter, and reporting sequence shown from two views.",
+    "duration_seconds": 29.133333,
+    "video_bytes": 550985,
+    "video_sha256": "17517884f04da6987c755d4f9d92375fef8b558a0863b689f9efda3ba843ac39",
+    "recorded": "2026-10-26"
+  },
+  {
+    "slug": "ideas",
+    "title": "Common Ground",
+    "repository": "https://github.com/Trylen22/capstone-idea-board",
+    "type": "Local application",
+    "description": "Post an idea, vote, and develop the proposal through comments using synthetic data and browser storage.",
+    "duration_seconds": 27.933333,
+    "video_bytes": 369322,
+    "video_sha256": "8c7a9648d429d8158cff6e045235e9ceaa37eda1e6b464bde79470122a10d7fc",
+    "recorded": "2026-10-26"
+  },
+  {
+    "slug": "fin",
+    "title": "Rectangular fin heat transfer",
+    "repository": "https://github.com/Trylen22/fin-walkthrough",
+    "type": "Interactive calculation",
+    "description": "Step through exposed area, fin efficiency, convection coefficients, and the worked result.",
+    "duration_seconds": 36.3,
+    "video_bytes": 818729,
+    "video_sha256": "bc6ac011fe1c2a18fb8ab236adec5f54a53397c22f32fa9861bbafdf73d37f5d",
+    "recorded": "2026-10-26"
+  },
+  {
+    "slug": "arm",
+    "title": "Inside the instruction",
+    "repository": "https://github.com/Trylen22/arm-inside",
+    "type": "Rendered educational film",
+    "description": "Follow ARMv8-A load, add, and store data flow through registers, the ALU, and memory.",
+    "duration_seconds": 57.133333,
+    "video_bytes": 1714230,
+    "video_sha256": "b2eadf529c1c9da82249077c9c248eba1dda1861563e6956856f61a496c9edef",
+    "recorded": "2026-10-26"
+  },
+  {
+    "slug": "portfolio",
+    "title": "Engineering portfolio",
+    "repository": "https://github.com/Trylen22/trylen22.github.io",
+    "type": "Website walkthrough",
+    "description": "Browse the public engineering portfolio and project index.",
+    "duration_seconds": 19.733333,
+    "video_bytes": 7055226,
+    "video_sha256": "de7dfa41c2e87ca346d303c24065d35aa0df7818dd0e96620c3306e26c89a115",
+    "recorded": "2026-10-26"
+  }
+]

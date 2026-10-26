@@ -1,0 +1,17 @@
+1
+00:00:00,000 --> 00:00:11,900
+JetMax control deck
+A browser interface brings robot controls and the camera preview together. Existing lab footage,
+recorded from a monitor.
+
+2
+00:00:12,000 --> 00:00:27,899
+Camera preview and arm controls
+The camera view sits beside the jog controls and coordinate readout so the operator can inspect the
+workspace.
+
+3
+00:00:28,000 --> 00:00:39,850
+ROS control interface
+The dashboard connects to the JetMax ROS bridge. This clip shows the interface rather than a
+complete pick-and-place trial.
