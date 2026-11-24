@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Paint with code</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="studio">
+      <header class="mast">
+        <p class="kicker"><b>p5.brush</b>watercolor · no API</p>
+        <h1>Paint with code</h1>
+        <p class="lede">
+          Type anything. The page reads your words on this device, picks
+          subjects, a place, the time of day, weather and mood, and paints
+          them with a seed. Same words plus same seed always give the same
+          painting.
+        </p>
+      </header>
+
+      <section class="stage">
+        <form id="prompt-form" class="controls">
+          <label for="prompt">Prompt</label>
+          <textarea id="prompt" name="prompt" rows="2" maxlength="240" required enterkeyhint="go" autocomplete="off" autocapitalize="sentences" spellcheck="false">a peach hibiscus in watercolour</textarea>
+          <div class="actions">
+            <button type="submit" id="paint">Paint</button>
+            <button type="button" id="repaint" class="ghost">Another seed</button>
+            <button type="button" id="save" class="ghost">Save seed</button>
+          </div>
+          <p class="try-label">Try</p>
+          <div class="chips">
+            <button type="button" class="chip" data-try="my dog eating pizza on the moon">my dog eating pizza on the moon</button>
+            <button type="button" class="chip" data-try="finals week">finals week</button>
+            <button type="button" class="chip" data-try="a red truck in the rain">a red truck in the rain</button>
+            <button type="button" class="chip" data-try="🐙🌊✨">🐙🌊✨</button>
+            <button type="button" class="chip" data-try="two cats sleeping in a castle at night">two cats sleeping in a castle at night</button>
+            <button type="button" class="chip" data-try="zorp">zorp</button>
+          </div>
+        </form>
+
+        <figure>
+          <div id="canvas-wrap">
+            <p id="status" class="status">mixing pigment…</p>
+          </div>
+          <figcaption>
+            <span id="prompt-label" class="prompt">“a starry night sky in watercolour”</span>
+            <span id="seed-label" class="seed">seed —</span>
+          </figcaption>
+          <p id="reading" class="reading" aria-live="polite"></p>
+        </figure>
+
+        <section class="shelf" aria-labelledby="shelf-title">
+          <h2 id="shelf-title">Saved seeds</h2>
+          <ul id="saved-list"></ul>
+        </section>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@2.3.2/lib/p5.min.js"></script>
+    <script src="p5.brush/dist/p5.brush.js"></script>
+    <script src="scene-lex.js?v=scene1"></script>
+    <script src="scene-paint.js?v=scene1"></script>
+    <script src="scene-compose.js?v=scene1"></script>
+    <script src="studio.js?v=scene1"></script>
+    <script src="sketch.js?v=scene1"></script>
+  <a id="gallery-back" href="../" style="position:fixed;right:16px;bottom:16px;z-index:2147483647;padding:9px 14px 10px;background:rgba(0,0,0,.82);border:1px solid rgba(255,255,255,.18);color:#e8edf2;font:500 12px/1 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;text-decoration:none">&larr; Gallery</a>
+<style>@font-face{font-family:"Geist Serif";src:local("Geist Serif"),url("/_shared/geist-serif.ttf") format("truetype");font-display:swap}</style>
+</body>
+</html>

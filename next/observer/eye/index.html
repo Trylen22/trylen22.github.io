@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The eye</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#efeae2;--dim:rgba(239,234,226,.55);--font:"Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#000;color:var(--ink);font-family:var(--font);overflow:hidden}
+  .eye{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:var(--px) var(--py);
+    transition:transform 1.15s cubic-bezier(.6,0,.85,.4)}
+  .pupil{position:fixed;border-radius:50%;border:0;background:transparent;cursor:pointer;transform:translate(-50%,-50%)}
+  .pupil:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
+  .film{position:fixed;inset:0;width:100%;height:100%;object-fit:contain;background:#000;
+    clip-path:circle(0px at var(--px) var(--py));transition:clip-path 1.15s cubic-bezier(.6,0,.85,.4)}
+  .hint{position:fixed;left:0;right:0;bottom:max(22px,4vh);text-align:center;font-size:13px;letter-spacing:.08em;color:var(--dim);
+    text-transform:lowercase;transition:opacity .6s}
+  .back{position:fixed;top:18px;left:clamp(16px,4vw,48px);z-index:3;color:var(--ink);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.04em;opacity:.8}
+  .back:hover{opacity:1;text-decoration:underline}
+  .credit{position:fixed;left:clamp(16px,4vw,48px);right:clamp(16px,4vw,48px);bottom:16px;z-index:3;font-size:11px;line-height:1.4;color:var(--dim);
+    opacity:0;transition:opacity 1s 1s;pointer-events:none}
+  body.open .eye{transform:scale(var(--zoom))}
+  body.open .film{clip-path:circle(150vmax at var(--px) var(--py))}
+  body.open .hint{opacity:0}
+  body.open .credit{opacity:1}
+</style>
+</head>
+<body>
+<a class="back" href="../">← Observer</a>
+<picture>
+  <source media="(max-aspect-ratio: 3/4)" srcset="eye-tall.jpg">
+  <img class="eye" src="eye.jpg" alt="Bazarov's eye. The name is reflected in its pupil, and veins, rings and cut-away anatomy surround it.">
+</picture>
+<button class="pupil" type="button" aria-label="Open the eye"></button>
+<video class="film" src="door.mp4" muted playsinline preload="auto"
+  aria-label="The pupil opens and the Night desk grove, the desktop's folders drawn as spreading veins, grows out of it"></video>
+<p class="hint">click the pupil</p>
+<p class="credit">Recorded on the desktop it opens. Eye: <i>Eye Contact</i>, Jordan Whitfield (CC0).
+  Figure: Vesalius, 1543, Wellcome Collection (CC BY 4.0).</p>
+<script>
+// Where the pupil sits in each picture (from art/eye/out/*.json), as [x, y, radius] in that picture's pixels.
+const PICS = { wide: { hit: [960, 518, 104], size: [1920, 1080] }, tall: { hit: [585, 1165, 148], size: [1170, 2532] } };
+const img = document.querySelector('.eye'), btn = document.querySelector('.pupil'), film = document.querySelector('.film');
+function place() {
+  const pic = innerWidth / innerHeight <= 3 / 4 ? PICS.tall : PICS.wide;
+  const [iw, ih] = pic.size, s = Math.max(innerWidth / iw, innerHeight / ih);     // object-fit: cover
+  const x = (innerWidth - iw * s) / 2 + pic.hit[0] * s, y = (innerHeight - ih * s) / 2 + pic.hit[1] * s, r = pic.hit[2] * s;
+  Object.assign(btn.style, { left: x + 'px', top: y + 'px', width: r * 2 + 'px', height: r * 2 + 'px' });
+  const root = document.documentElement.style;
+  root.setProperty('--px', x + 'px'); root.setProperty('--py', y + 'px');
+  root.setProperty('--zoom', (Math.hypot(innerWidth, innerHeight) / r).toFixed(2));
+}
+place(); addEventListener('resize', place);
+function open() {
+  if (document.body.classList.contains('open')) return;
+  film.currentTime = 0; film.play().catch(() => {});
+  document.body.classList.add('open');
+  btn.hidden = true;
+}
+btn.addEventListener('click', open);
+// as on the desktop: typing the name opens it too
+let typed = '';
+addEventListener('keydown', e => { typed = (typed + e.key.toLowerCase()).slice(-7); if (typed === 'bazarov') open(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f4efe4;--ink:#111110;--font:"Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--paper);color:var(--ink);font-family:var(--font);overflow:hidden}
+  video{position:fixed;inset:0;width:100%;height:100%;object-fit:contain;background:var(--paper)}
+  .back{position:fixed;top:18px;left:clamp(16px,4vw,48px);z-index:3;color:var(--ink);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.04em}
+  .back:hover{text-decoration:underline}
+  .play{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;background:var(--ink);color:#f4efe4;border:0;cursor:pointer;
+    font:500 15px var(--font);padding:11px 26px;border-radius:999px;transition:opacity .4s}
+  body.playing .play{opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<a class="back" href="../">← Gallery</a>
+<video src="bloom.mp4" poster="poster.jpg" playsinline preload="metadata"
+  aria-label="A hibiscus painted in watercolor by code, wash by wash and vein by vein, to a piano score"></video>
+<button class="play" type="button">Play with sound ↳</button>
+<script>
+const v = document.querySelector('video'), b = document.querySelector('.play');
+b.addEventListener('click', () => { v.currentTime = 0; v.play(); document.body.classList.add('playing'); });
+v.addEventListener('click', () => { if (v.paused) { v.play(); document.body.classList.add('playing'); } else { v.pause(); document.body.classList.remove('playing'); } });
+v.addEventListener('ended', () => { document.body.classList.remove('playing'); b.textContent = 'Play again ↳'; });
+</script>
+</body>
+</html>

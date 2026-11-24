@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The secret one</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#efeae2;--dim:rgba(239,234,226,.55);--font:"Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#000;color:var(--ink);font-family:var(--font);overflow:hidden}
+  video{position:fixed;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+  .back{position:fixed;top:18px;left:clamp(16px,4vw,48px);z-index:3;color:var(--ink);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.04em;opacity:.8}
+  .back:hover{opacity:1;text-decoration:underline}
+  .play{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;background:var(--ink);color:#111110;border:0;cursor:pointer;
+    font:500 15px var(--font);padding:11px 26px;border-radius:999px;transition:opacity .4s}
+  body.playing .play{opacity:0;pointer-events:none}
+  .credit{position:fixed;left:clamp(16px,4vw,48px);right:clamp(16px,4vw,48px);bottom:16px;z-index:3;font-size:11px;line-height:1.4;color:var(--dim)}
+</style>
+</head>
+<body>
+<a class="back" href="../">← Observer</a>
+<video src="mermaid.mp4" poster="poster.jpg" muted playsinline loop preload="metadata"
+  aria-label="A mermaid with a city for a crown grows out of the dark in ink, veins and colonies spreading from her eye; the name Bazarov is written on her forehead"></video>
+<button class="play" type="button">Play ↳</button>
+<p class="credit">After <i>Mermaid</i> by Malene T. Laugesen (2015), redrawn in code by the Bazarov idle screen and shown with her permission.</p>
+<script>
+const v = document.querySelector('video'), b = document.querySelector('.play');
+b.addEventListener('click', () => { v.currentTime = 0; v.play(); document.body.classList.add('playing'); });
+v.addEventListener('click', () => { if (v.paused) { v.play(); document.body.classList.add('playing'); } else { v.pause(); document.body.classList.remove('playing'); } });
+</script>
+</body>
+</html>

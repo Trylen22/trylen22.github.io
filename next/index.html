@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trylen Stephens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<main>
+  <section class="name" aria-label="Trylen Stephens">
+    <h1>
+      <span class="l1">TR</span>
+      <span class="l2">YL–</span>
+      <span class="l3">EN <em class="sur">Stephens</em></span>
+    </h1>
+  </section>
+
+  <section class="why">
+    <h2>Why are you here?</h2>
+
+    <article class="entry">
+      <div class="art ink" data-latech>
+        <img src="art/latech.svg" alt="">
+        <canvas role="img" aria-label="The Louisiana Tech mark, the T over the state, drawn in ink"></canvas>
+      </div>
+      <div class="copy">
+        <div class="tag">01</div>
+        <h3>Employer</h3>
+        <a class="pill" href="../Trylen_Stephens_Resume.pdf">Enter <span aria-hidden="true">↳</span></a>
+        <p>Placeholder. Resume, projects, and what I can do on a plant floor.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="art"><img src="art/cat.svg" alt="The Email Scraper cat, drawn as hand-inked ASCII"></div>
+      <div class="copy">
+        <div class="tag">02</div>
+        <h3>An observer by chance</h3>
+        <a class="pill" href="observer/" data-observer>Enter <span aria-hidden="true">↳</span></a>
+        <p>Placeholder. Things I built because I wanted to see how they work.</p>
+      </div>
+    </article>
+  </section>
+</main>
+<script type="module">
+// The La Tech card: the ASCII drawing shows until the 3D mark has loaded (and stays if WebGL isn't available).
+const host = document.querySelector('[data-latech]');
+new IntersectionObserver(async (es, io) => {
+  if (!es.some(e => e.isIntersecting)) return;
+  io.disconnect();
+  try { const { mountLatech } = await import('./art/latech3d.js'); await mountLatech(host); }
+  catch (err) { console.warn('La Tech card stays a picture:', err); }
+}, { rootMargin: '200px' }).observe(host);
+</script>
+<script>
+// Observer: the cat card grows to fill the screen, then the skull takes over on the next page.
+document.querySelector('[data-observer]').addEventListener('click', e => {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || e.metaKey || e.ctrlKey || e.shiftKey) return;
+  e.preventDefault();
+  const href = e.currentTarget.href, art = e.currentTarget.closest('.entry').querySelector('.art');
+  const r = art.getBoundingClientRect(), v = document.createElement('div');
+  v.className = 'veil'; v.append(art.querySelector('img').cloneNode());
+  Object.assign(v.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+  document.body.append(v);
+  v.getBoundingClientRect();
+  Object.assign(v.style, { left: 0, top: 0, width: '100vw', height: '100vh', borderRadius: 0 });
+  v.querySelector('img').style.opacity = 0;
+  try { sessionStorage.removeItem('observer-intro'); } catch (_) {}
+  setTimeout(() => { location.href = href; }, 800);
+});
+</script>
+</body>
+</html>

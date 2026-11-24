@@ -1,0 +1,10 @@
+:root{--paper:#14110d;--gold:#d3ab52;--pale:#f1e2b8}
+.poster{background:var(--paper);color:var(--pale)}
+.kicker{top:64px;font-size:22px;color:var(--gold)}
+h1{margin:0;top:150px;line-height:.86;font-weight:900}
+h1 span{display:block}
+.go{font-size:110px;font-style:italic;font-weight:700;color:var(--gold)}
+.big{font-size:246px;color:var(--pale);letter-spacing:-.02em}
+.line1{top:1062px;font-size:44px;letter-spacing:.38em;color:var(--gold)}
+.line2{top:1132px;font-size:22px;color:var(--pale);opacity:.85}
+.foot{bottom:56px;font-size:19px;color:var(--gold)}

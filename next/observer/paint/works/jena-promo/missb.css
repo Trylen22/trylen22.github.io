@@ -1,0 +1,8 @@
+:root{--paper:#f5eee1;--rose:#b5726c;--brown:#4a3126;--gold:#c9a24a}
+.poster{background:var(--paper);color:var(--brown)}
+.kicker{top:64px;font-size:22px;color:var(--brown)}
+h1{margin:0;top:590px;font-size:180px;line-height:.92;font-weight:700;color:var(--rose);letter-spacing:-.015em}
+.line1{top:925px;font-size:30px;letter-spacing:.4em;color:var(--gold)}
+.italic{top:985px;font-style:italic;font-size:48px;color:var(--brown)}
+.line2{top:1105px;font-size:20px;color:var(--brown);opacity:.8}
+.foot{bottom:56px;font-size:19px;color:var(--rose)}

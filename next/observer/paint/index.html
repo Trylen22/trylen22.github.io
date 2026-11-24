@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paint with code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../site.css">
+<style>
+  .back{position:fixed;top:18px;left:clamp(16px,5vw,88px);z-index:5;font-size:13px;font-weight:500;letter-spacing:.04em;color:var(--ink);text-decoration:none}
+  .back:hover{text-decoration:underline}
+  main.wall{display:block;max-width:1680px;margin:0 auto;padding:clamp(64px,8vw,120px) clamp(16px,5vw,88px) 96px}
+  .wall header{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 40px;margin-bottom:clamp(40px,5vw,72px)}
+  .wall h1{font-weight:400;font-size:clamp(64px,10vw,170px);line-height:.86;letter-spacing:-.055em}
+  .wall h1 span{display:block}
+  .wall h1 .l2{padding-left:.3em}
+  .wall header p{max-width:34ch;font-size:15px;line-height:1.4;color:var(--soft);padding-bottom:.6em}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:clamp(28px,3vw,48px) clamp(20px,2.4vw,36px)}
+  .work{display:flex;flex-direction:column;gap:14px;color:var(--ink);text-decoration:none}
+  .work .frame{aspect-ratio:4/5;background:var(--card);border-radius:3px;overflow:hidden}
+  .work img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+  .work:hover img{transform:scale(1.03)}
+  .work .tag{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+  .work h2{font-weight:400;font-size:clamp(26px,2.2vw,36px);line-height:1;letter-spacing:-.03em}
+  .work p{font-size:14px;line-height:1.35;color:var(--soft);max-width:36ch}
+  .work .open{font-size:13px;font-weight:500}
+  .credits{margin-top:72px;font-size:12px;line-height:1.5;color:var(--soft);max-width:70ch}
+  .credits a{color:inherit}
+</style>
+</head>
+<body>
+<a class="back" href="../">← Observer</a>
+<main class="wall">
+  <header>
+    <h1><span>PAINT</span><span class="l2">WITH–</span><span>CODE</span></h1>
+    <p>Watercolor made by a program: every wash, bleed and grain is code, and a seed brings the same painting back. Open any of them and it paints itself again, live.</p>
+  </header>
+  <section class="grid">
+    <a class="work" href="bloom/">
+      <div class="frame"><img src="thumbs/bloom.jpg" alt="A pink watercolor hibiscus on cream paper" loading="lazy"></div>
+      <div class="tag">01 · short film</div><h2>Bloom</h2>
+      <p>A hibiscus painted wash by wash, vein by vein, to a piano score. Sound on.</p>
+      <span class="open">Watch ↳</span>
+    </a>
+    <a class="work" href="works/butterfly/ink.html">
+      <div class="frame"><img src="thumbs/nocturne-ink.jpg" alt="A watercolor butterfly in greys on black" loading="lazy"></div>
+      <div class="tag">02 · p5.brush</div><h2>Nocturne, in ink</h2>
+      <p>The butterfly again, pigments swapped for greys, to sit with the rest of this site.</p>
+      <span class="open">Paint it ↳</span>
+    </a>
+    <a class="work" href="works/butterfly/index.html">
+      <div class="frame"><img src="thumbs/nocturne.jpg" alt="A blue, teal and magenta watercolor butterfly on black" loading="lazy"></div>
+      <div class="tag">03 · p5.brush</div><h2>Nocturne</h2>
+      <p>Translucent glazes left to bleed, one cream hairline, one eyespot to a wing.</p>
+      <span class="open">Paint it ↳</span>
+    </a>
+    <a class="work" href="works/index.html">
+      <div class="frame"><img src="thumbs/studio.jpg" alt="A peach hibiscus in watercolor on cream paper" loading="lazy"></div>
+      <div class="tag">04 · studio</div><h2>Type a painting</h2>
+      <p>Type anything. It reads your words on your machine, no AI service, picks subjects, a place, the weather and a mood, and paints them with a seed you can keep.</p>
+      <span class="open">Try it ↳</span>
+    </a>
+    <a class="work" href="works/jena-promo/giants.html">
+      <div class="frame"><img src="thumbs/giants.jpg" alt="A gold watercolor football on black, a flier for the Jena High School Giants" loading="lazy"></div>
+      <div class="tag">05 · flier</div><h2>Jena Giants</h2>
+      <p>A painted football under real type, made for the home team.</p>
+      <span class="open">Paint it ↳</span>
+    </a>
+    <a class="work" href="works/jena-promo/missb.html">
+      <div class="frame"><img src="thumbs/missb.jpg" alt="A rose watercolor coffee cup with steam and coffee rings, a flier for Miss B's Place" loading="lazy"></div>
+      <div class="tag">06 · flier</div><h2>Miss B's Place</h2>
+      <p>A rose cup, steam and the rings it leaves.</p>
+      <span class="open">Paint it ↳</span>
+    </a>
+  </section>
+  <p class="credits">Painted with <a href="https://github.com/acamposuribe/p5.brush">p5.brush</a> by Alejandro Campos Uribe (MIT) and p5.js. Fonts: Inter, Oswald, Playfair Display (SIL Open Font License).</p>
+</main>
+</body>
+</html>

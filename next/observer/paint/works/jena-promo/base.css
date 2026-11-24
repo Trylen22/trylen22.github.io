@@ -1,0 +1,5 @@
+html,body{margin:0;background:#222}
+.poster{position:relative;width:1080px;height:1350px;overflow:hidden;font-family:"Noto Serif Display","Noto Serif",Georgia,serif}
+#paint,#paint canvas{position:absolute;inset:0;display:block}
+.txt{position:absolute;left:0;right:0;text-align:center}
+.caps{font-family:"Liberation Sans Narrow","Noto Sans Display",sans-serif;text-transform:uppercase;letter-spacing:.32em;font-weight:700}

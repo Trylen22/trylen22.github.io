@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en" class="intro-on">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An observer by chance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../site.css">
+<style>
+  #intro{position:fixed;inset:0;z-index:50;background:#000;transition:opacity .8s ease}
+  #intro canvas{display:block;width:100%;height:100%}
+  #intro[data-state=gone]{opacity:0;pointer-events:none}
+  #intro .skip{position:absolute;right:clamp(16px,3vw,40px);bottom:clamp(16px,3vw,40px);
+    background:#efeae2;color:#111110;border:0;cursor:pointer;font:500 14px var(--font);padding:9px 20px;border-radius:999px;opacity:.85}
+  html.intro-on body{overflow:hidden}
+  .back{position:fixed;top:18px;left:clamp(16px,5vw,88px);z-index:5;font-size:13px;font-weight:500;letter-spacing:.04em;color:var(--ink);text-decoration:none}
+  .back:hover{text-decoration:underline}
+  .entries .art img{object-fit:cover;filter:grayscale(1) contrast(1.15) brightness(.9)}
+  .entries .art{display:block}
+  .entries .copy h3{max-width:12ch}
+  .ascii{display:flex;align-items:center;justify-content:center;height:100%;margin:0;color:#efeae2;font:12.5px/1.25 'JetBrains Mono',ui-monospace,monospace;white-space:pre}
+  .guys,.mortimer{cursor:pointer}
+  .guys .guy-name{position:absolute;left:0;right:0;bottom:18px;text-align:center;color:#efeae2;font:500 12px var(--font);letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+  canvas.butterfly{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:4}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+<div id="intro" aria-hidden="true"><canvas></canvas><button class="skip" type="button">Skip ↳</button></div>
+<a class="back" href="../">← Trylen</a>
+<main>
+  <section class="name" aria-label="An observer by chance">
+    <h1>
+      <span class="l1">OBS</span>
+      <span class="l2">ERV–</span>
+      <span class="l3">ER <em class="sur">by chance</em></span>
+    </h1>
+  </section>
+  <section class="why entries">
+    <h2>Things I made because I wanted to</h2>
+    <article class="entry">
+      <div class="art arm" data-arm>
+        <img src="../../demos/lite6/poster.webp" alt="" loading="lazy">
+        <canvas role="img" aria-label="The Lite 6 arm, drawn in ink, moving a block from the table to a shelf when played"></canvas>
+        <button class="play" type="button" aria-pressed="false">Play</button>
+      </div>
+      <div class="copy">
+        <div class="tag">01 · Lite 6 lab deck</div>
+        <h3>Arm control</h3>
+        <a class="pill" href="https://github.com/Trylen22/lite6-lab-control">Code <span aria-hidden="true">↳</span></a>
+        <p>Blurb coming.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <a class="art" href="paint/"><img src="media/nocturne-ink.jpg" alt="Nocturne, a watercolor butterfly painted with code, in greys on black" loading="lazy"></a>
+      <div class="copy">
+        <div class="tag">02 · p5.brush</div>
+        <h3>Paint with code</h3>
+        <a class="pill" href="paint/">Gallery <span aria-hidden="true">↳</span></a>
+        <p>Blurb coming.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="art ink mortimer" data-mortimer>
+        <canvas role="img" aria-label="Mortimer, an ASCII skull drawn by hand, blinking, glancing and talking"></canvas>
+      </div>
+      <div class="copy">
+        <div class="tag">03 · Mortimer</div>
+        <h3>Papyrus</h3>
+        <a class="pill" href="https://github.com/Trylen22/papyrus">Code <span aria-hidden="true">↳</span></a>
+        <p>Blurb coming.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="art"><img src="../art/cat.svg" alt="The Email Scraper cat, drawn as hand-inked ASCII"></div>
+      <div class="copy">
+        <div class="tag">04 · the cat</div>
+        <h3>Email Scraper</h3>
+        <a class="pill" href="https://github.com/Trylen22/Email-scraper">Code <span aria-hidden="true">↳</span></a>
+        <p>Blurb coming.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <div class="art ink guys" data-guys>
+        <canvas role="img" aria-label="The account-mark pixel characters, one at a time, stepping and blinking"></canvas>
+        <span class="guy-name"></span>
+      </div>
+      <div class="copy">
+        <div class="tag">05 · account marks</div>
+        <h3>The little guys</h3>
+        <a class="pill" href="https://github.com/Trylen22">More <span aria-hidden="true">↳</span></a>
+        <p>Blurb coming.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <a class="art" href="eye/"><img src="media/eye.jpg" alt="Bazarov's eye" loading="lazy"></a>
+      <div class="copy">
+        <div class="tag">06 · Bazarov</div>
+        <h3>The eye</h3>
+        <a class="pill" href="eye/">Open <span aria-hidden="true">↳</span></a>
+        <p>Blurb coming.</p>
+      </div>
+    </article>
+    <article class="entry">
+      <a class="art" href="mermaid/"><img src="media/mermaid.jpg" alt="The mermaid from the Bazarov idle screen, grown in ink, the name Bazarov on her forehead" loading="lazy"></a>
+      <div class="copy">
+        <div class="tag">07 · the secret one</div>
+        <h3>The mermaid</h3>
+        <a class="pill" href="mermaid/">Watch <span aria-hidden="true">↳</span></a>
+        <p>Blurb coming.</p>
+      </div>
+    </article>
+  </section>
+</main>
+<script type="module" src="intro.js"></script>
+<script src="butterfly.js" defer></script>
+<script type="module">
+// The Lite 6 entry plays the Lab deck's shelf program in ink; the poster shows until it has loaded.
+const host = document.querySelector('[data-arm]');
+new IntersectionObserver(async (es, io) => {
+  if (!es.some(e => e.isIntersecting)) return;
+  io.disconnect();
+  try { const { mountArm } = await import('../arm/arm.js'); await mountArm(host); }
+  catch (err) { console.warn('Lite 6 card stays a picture:', err); }
+}, { rootMargin: '200px' }).observe(host);
+import('./mortimer.js').then(m => m.mountMortimer(document.querySelector('[data-mortimer]'))).catch(err => console.warn('mortimer:', err));
+import('./guys.js').then(m => m.mountGuys(document.querySelector('[data-guys]'))).catch(err => console.warn('guys:', err));
+</script>
+</body>
+</html>
